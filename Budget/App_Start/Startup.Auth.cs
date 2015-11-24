@@ -55,12 +55,12 @@ namespace Budget
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-                           appId: "1002098736507598",
-                           appSecret: "5c1c05b0499c4a95c57856ef1cf19f52");
+                           appId: "893497050745921",
+                           appSecret: "4ff797f52a9603d817df5cdcf69694fb");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() {
-                ClientId = "143875180671-lpv2kvjs6re8tklih17ggvc3v7m6khq5.apps.googleusercontent.com",
-                ClientSecret = "nKlfgKDT3mkz1lzc8iMBm7xV"
+                ClientId = "143875180671-e5vo72ihhbso2e023vi52ep82seopt20.apps.googleusercontent.com",
+                ClientSecret = "K8Iel0B_BrqW9dLlWz4kK7ql"
             });
         }
     }
