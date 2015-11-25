@@ -11,6 +11,7 @@ namespace Budget.Models {
 
         public ApplicationUser() {
             this.BankAccounts = new HashSet<BankAccount>();
+            this.Transactions = new HashSet<Transaction>();
         }
 
         public string FirstName { get; set; }
@@ -18,6 +19,7 @@ namespace Budget.Models {
         public string DisplayName { get; set; }
 
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
