@@ -16,25 +16,25 @@ namespace Budget.Controllers {
         public ActionResult Index() {
             var bankAccountData = db.BankAccountData.Include(b => b.HouseHold);
             return View(bankAccountData.ToList());
-            }
+        }
 
         // GET: BankAccounts/Details/5
         public ActionResult Details(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            }
             BankAccount bankAccount = db.BankAccountData.Find(id);
             if(bankAccount == null) {
                 return HttpNotFound();
-                }
-            return View(bankAccount);
             }
+            return View(bankAccount);
+        }
 
         // GET: BankAccounts/Create
         public ActionResult Create() {
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name");
             return View();
-            }
+        }
 
         // POST: BankAccounts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -46,24 +46,24 @@ namespace Budget.Controllers {
                 db.BankAccountData.Add(bankAccount);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-                }
+            }
 
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);
-            }
+        }
 
         // GET: BankAccounts/Edit/5
         public ActionResult Edit(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            }
             BankAccount bankAccount = db.BankAccountData.Find(id);
             if(bankAccount == null) {
                 return HttpNotFound();
-                }
+            }
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);
-            }
+        }
 
         // POST: BankAccounts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -75,22 +75,22 @@ namespace Budget.Controllers {
                 db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
-                }
+            }
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);
-            }
+        }
 
         // GET: BankAccounts/Delete/5
         public ActionResult Delete(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            }
             BankAccount bankAccount = db.BankAccountData.Find(id);
             if(bankAccount == null) {
                 return HttpNotFound();
-                }
-            return View(bankAccount);
             }
+            return View(bankAccount);
+        }
 
         // POST: BankAccounts/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -100,13 +100,13 @@ namespace Budget.Controllers {
             db.BankAccountData.Remove(bankAccount);
             db.SaveChanges();
             return RedirectToAction("Index");
-            }
+        }
 
         protected override void Dispose(bool disposing) {
             if(disposing) {
                 db.Dispose();
-                }
-            base.Dispose(disposing);
             }
+            base.Dispose(disposing);
         }
     }
+}

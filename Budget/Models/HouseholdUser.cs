@@ -13,10 +13,5 @@ namespace Budget.Models {
         public string[] SelectedMembers { get; set; }
         public string[] UserHouseholds { get; set; }
 
-        //public ProjectsModel Project { get; set; }
-        //public MultiSelectList Users { get; set; }
-        //public string[] SelectedUsers { get; set; }
-        //public string[] userRoles { get; set; }
-
         }
     }

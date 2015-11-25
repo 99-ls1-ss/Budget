@@ -14,6 +14,7 @@ namespace Budget.Models {
         }
 
         public int Id { get; set; }
+
         [Display(Name = "Household Name")]
         public string Name { get; set; }
 

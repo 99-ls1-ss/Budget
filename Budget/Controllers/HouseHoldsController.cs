@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Budget.Models;
 using Budget.Helpers;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace Budget.Controllers {
     public class HouseHoldsController : Controller {
@@ -16,42 +18,48 @@ namespace Budget.Controllers {
         // GET: HouseHolds
         public ActionResult Index() {
             return View(db.HouseHoldData.ToList());
-            }
+        }
 
         // GET: HouseHolds/Details/5
         public ActionResult Details(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            var householdId = db.HouseHoldData.Find(id);
-            var selected = householdId.Users.Select(u => u.Id);
-
-            HouseholdUser householdUser = new HouseholdUser() {
-                Members = new MultiSelectList(db.Users, "Id", "DisplayName", selected),
-                HouseHolds = householdId
-            };
-
-            //HouseHold houseHold = db.HouseHoldData.Find(id);
-            //if(houseHold == null) {
-            //    return HttpNotFound();
-            //    }
-            return View(householdUser);
             }
 
+            HouseHold household = db.HouseHoldData.Find(id);
 
-        //var projectId = db.ProjectsData.Find(id);
-        //var selected = projectId.Users.Select(u => u.Id);
+            return View(household);
+        }
 
-        //ProjectUsersModel projectUsersModel = new ProjectUsersModel() {
-        //    Users = new MultiSelectList(db.Users, "Id", "DisplayName", selected),
-        //    Project = projectId
-        //};
-        //return View(projectUsersModel);
+        // GET: HouseHolds/Invitation
+        [HttpPost]
+        public ActionResult Invite(HouseHold household, string inviteEmail) {
+
+            var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
+            var code = Guid.NewGuid().ToString("n");
+            EmailService es = new EmailService();
+            IdentityMessage im = new IdentityMessage() {
+                Destination = inviteEmail,
+                Subject = "You have been invited to join the " + household.Name + ".",
+                Body = "You can join the " + household.Name + " by clicking the following link. <br />" + callbackUrl + "<br />Your Access Code is: " + code
+            };
+            es.SendAsync(im);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            Member m = new Member() {
+                GUID = code,
+                Email = inviteEmail,
+                HouseHoldId = user.HouseHoldId
+            };
+            db.MemberData.Add(m);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = household.Id });
+        }
+
 
         // GET: HouseHolds/Create
         public ActionResult Create() {
             return View();
-            }
+        }
 
         // POST: HouseHolds/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -63,16 +71,16 @@ namespace Budget.Controllers {
                 db.HouseHoldData.Add(houseHold);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-                }
+            }
 
             return View(houseHold);
-            }
+        }
 
         // GET: HouseHolds/Edit/5
         public ActionResult Edit(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            }
 
             var householdId = db.HouseHoldData.Find(id);
             var selected = householdId.Users.Select(u => u.Id);
@@ -83,7 +91,7 @@ namespace Budget.Controllers {
             };
 
             return View(householdMembers);
-            }
+        }
 
 
         // POST: HouseHolds/Edit/5
@@ -93,17 +101,17 @@ namespace Budget.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit(HouseholdUser householdUser) {
 
-        var household = db.HouseHoldData.Find(householdUser.HouseHolds.Id);
+            var household = db.HouseHoldData.Find(householdUser.HouseHolds.Id);
 
-        HouseholdUserHelper helper = new HouseholdUserHelper();
-        household.Users.Clear();
+            HouseholdUserHelper helper = new HouseholdUserHelper();
+            household.Users.Clear();
 
-        foreach(var memberid in householdUser.SelectedMembers) {
-        helper.AddMemberToHousehold(memberid, household.Id);
-        }
+            foreach(var memberid in householdUser.SelectedMembers) {
+                helper.AddMemberToHousehold(memberid, household.Id);
+            }
 
-        db.SaveChanges();
-        return RedirectToAction("Index");
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
 
@@ -111,13 +119,13 @@ namespace Budget.Controllers {
         public ActionResult Delete(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            }
             HouseHold houseHold = db.HouseHoldData.Find(id);
             if(houseHold == null) {
                 return HttpNotFound();
-                }
-            return View(houseHold);
             }
+            return View(houseHold);
+        }
 
         // POST: HouseHolds/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -127,13 +135,13 @@ namespace Budget.Controllers {
             db.HouseHoldData.Remove(houseHold);
             db.SaveChanges();
             return RedirectToAction("Index");
-            }
+        }
 
         protected override void Dispose(bool disposing) {
             if(disposing) {
                 db.Dispose();
-                }
-            base.Dispose(disposing);
             }
+            base.Dispose(disposing);
         }
     }
+}

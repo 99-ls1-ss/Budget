@@ -1,6 +1,6 @@
 ﻿@using System.Collections
 @using Budget.Models
-@model Budget.Models.HouseholdUser
+@model Budget.Models.HouseHold
 
 @{
     ViewBag.Title = "Details";
@@ -9,64 +9,54 @@
 <h2>Details</h2>
 
 <div>
-    <h4>HouseHold</h4>
+    <h4>House Hold</h4>
     <hr />
+    <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household.</a>
 
-    <form method="post" action="@Url.Action("Edit")">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => Model.Id)
 
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => Model.HouseHolds.Id)
-
-        @Html.LabelFor(m => m.HouseHolds, Model.HouseHolds.Name, new { @class = "control-label col-md-2" })
-        @Html.ListBoxFor(m => m.SelectedMembers, Model.Members, new { @class = "form-control" })
-
-        <button type="submit">Submit</button>
-
-    </form>
-
+    @foreach(var member in Model.Users) {
+        <div class="row">
+            <div class="col-md-6">@member.DisplayName</div>
+            <div class="col-md-6">@member.Email</div>
+        </div>
+    }
     <div>
         @Html.ActionLink("Back to List", "Index")
     </div>
-
-    @*<dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseHolds.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HouseHolds.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SelectedMembers)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HouseHolds.Name)
-        </dd>
-
-    </dl>*@
 </div>
-@*<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.HouseHolds.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
-@*
 
-    <form method="post" action="@Url.Action("Edit")">
 
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => Model.Project.Id)
 
-        @Html.LabelFor(m => m.Project, Model.Project.Name, new { @class = "control-label col-md-2" })
-        @Html.ListBoxFor(m => m.SelectedUsers, Model.Users, new { @class = "form-control" })
-
-        <button type="submit">Submit</button>
-
-    </form>
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
+<div id="sendInvitation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="invitation-form" role="form" method="post" action="@Url.Action("Invite", "Households")">
+                                    <input type="hidden" name="memberId" value="" />
+                                    <input type="hidden" name="householdId" value="@Model.Id" />
+                                    <h5 class="subpage-title">Send Invitation</h5>
+                                    <input name="inviteEmail" id="inviteEmail" value="" placeholder="New Member Email" />
+                                    <input type="submit" class="btn btn-flat flat-color" value="Send Invitation" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-*@
+@section scripts {
+    <script>
+        $('.jsCommentClass').click(function () {
+            $('#householdId').val($(this).attr('data-houseHoldId'));
+        });
+    </script>
+}

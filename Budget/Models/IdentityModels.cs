@@ -17,6 +17,7 @@ namespace Budget.Models {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
+        public int? HouseHoldId { get; set; }
 
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }

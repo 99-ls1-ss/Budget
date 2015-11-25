@@ -14,22 +14,22 @@ namespace Budget.Helpers {
 
             if(db.HouseHoldData.Find(householdId).Users.Contains(db.Users.Find(memberId))) {
                 return true;
-                }
-            return false;
             }
+            return false;
+        }
 
         public void AddMemberToHousehold(string memberId, int householdId) {
             if(!IsInHousehold(memberId, householdId)) {
-            var household = db.HouseHoldData.Find(householdId);
+                var household = db.HouseHoldData.Find(householdId);
                 household.Users.Add(db.Users.Find(memberId));
                 db.Entry(household).State = EntityState.Modified;
                 db.SaveChanges();
-                }
             }
+        }
 
         public ICollection<ApplicationUser> ListMembersOfHousehold(int householdId) {
             return db.HouseHoldData.Find(householdId).Users;
-            }
-
         }
+
     }
+}
