@@ -20,6 +20,7 @@ namespace Budget.Models {
 
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual HouseHold HouseHold { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -39,7 +40,7 @@ namespace Budget.Models {
         }
         
         public System.Data.Entity.DbSet<Models.BankAccount> BankAccountData { get; set; }
-        public System.Data.Entity.DbSet<Models.Budget> BudgetData { get; set; }
+        public System.Data.Entity.DbSet<Models.BudgetItems> BudgetData { get; set; }
         public System.Data.Entity.DbSet<Models.Category> CategoryData { get; set; }
         public System.Data.Entity.DbSet<Models.HouseHold> HouseHoldData { get; set; }
         public System.Data.Entity.DbSet<Models.Member> MemberData { get; set; }
