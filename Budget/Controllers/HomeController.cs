@@ -12,22 +12,15 @@ namespace Budget.Controllers {
 
 
         public ActionResult Index(int? id) {
-            HouseHold houseHold = db.HouseHoldData.Find(id);
-            ApplicationUser member = db.Users.Find(id);
-            //var user = UserManager.FindById(User.Identity.GetUserId());
+            //HouseHold houseHold = db.HouseHoldData.Find(id);
+            //ApplicationUser member = db.Users.Find(id);
 
-            if(User.Identity.IsAuthenticated == true) {
-                if(houseHold.Id == member.HouseHoldId) {
-                    return RedirectToAction("Index", "HouseHolds", new { id = houseHold.Id });
-                }
-                else {
-                    return View();
-                }
-                
-            }
-            else {
+            //if(User.Identity.IsAuthenticated == true) {                
+            //    return RedirectToAction("Index", "HouseHolds", new { id = houseHold.Id });                
+            //}
+            //else {
                 return View();
-            }
+            //}
             
         }
 

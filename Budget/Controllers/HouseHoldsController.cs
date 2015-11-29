@@ -15,8 +15,12 @@ namespace Budget.Controllers {
     public class HouseHoldsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: HouseHolds
-        public ActionResult Index() {
+        // GET: HouseHold
+        public ActionResult Index(int id) {
+
+            HouseHold household = db.HouseHoldData.Find(id);
+            var userHouseholdId = db.Users.Where(u => u.HouseHoldId == household.Id);
+
             return View(db.HouseHoldData.ToList());
         }
 
