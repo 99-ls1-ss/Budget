@@ -53,9 +53,10 @@ namespace Budget.Controllers {
         [HttpPost]
         public ActionResult Invite(HouseHold household, string inviteEmail) {
 
-            //var callbackUrl = Url.Action("JoinHousehold", "Details", null, protocol: Request.Url.Scheme);
-            var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
             var code = Guid.NewGuid().ToString("n");
+            var callbackUrl = Url.Action("JoinHousehold", "HouseHolds", new { id=household.Id, sentCode = code, inviteEmail = inviteEmail}, protocol: Request.Url.Scheme);
+            //var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
+            
             EmailService es = new EmailService();
             IdentityMessage im = new IdentityMessage() {
                 Destination = inviteEmail,
@@ -74,24 +75,14 @@ namespace Budget.Controllers {
             return RedirectToAction("Details", new { id = household.Id });
         }
 
-        [HttpPost]
-        public ActionResult JoinHousehold(int householdId, string inviteEmail, string sentCode) {
 
-            var user = db.Users.Find(User.Identity.GetUserId());
-            var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
-            var member = db.MemberData.Where(m => m.Email == inviteEmail).FirstOrDefault();
-            var memberCode = db.MemberData.Where(c => c.GUID == sentCode).FirstOrDefault();
-            var household = db.MemberData.Where(h => h.HouseHoldId == householdId).FirstOrDefault();
+        // GET: HouseHolds/JoinHousehold
+        public ActionResult JoinHousehold(int? id, string sentCode, string inviteEmail) {
 
-            if(sentCode == memberCode.GUID && inviteEmail == memberCode.Email && householdId == memberCode.HouseHoldId) {
-                user.HouseHoldId = householdId;
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = householdId });
-            }
-            else {
-                return RedirectToAction("Login", "Account");
-            }
-            
+            ApplicationUser user = new ApplicationUser();
+            var guid = db.MemberData.Where(g => g.GUID == sentCode).FirstOrDefault();
+
+            return View();
         }
 
         // GET: HouseHolds/Create
@@ -106,8 +97,11 @@ namespace Budget.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name")] HouseHold houseHold) {
             if(ModelState.IsValid) {
+                var user = db.Users.Find(User.Identity.GetUserId()); 
                 db.HouseHoldData.Add(houseHold);
                 db.SaveChanges();
+                //TODO
+
                 return RedirectToAction("Index");
             }
 

@@ -5,7 +5,6 @@
 
 @{
     ViewBag.Title = "Details";
-    
 }
 
 <h2>Details</h2>
@@ -40,7 +39,6 @@
                         <div class="post-comments">
                             <div class="col-md-12">
                                 <form class="invitation-form" role="form" method="post" action="@Url.Action("Invite", "Households")">
-                                    @*<input type="hidden" name="householdId" id="" value="@Model.Id" />*@
                                     @Html.HiddenFor(m => Model.Id)
                                     <input type="hidden" name="sentCode" id="sentCode" value="" />
                                     <h5 class="subpage-title">Send Invitation</h5>
