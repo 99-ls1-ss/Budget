@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Budget.Models.HouseHold>
+﻿@model Budget.Models.HouseHold
 @using Microsoft.AspNet.Identity;
 
 @{
@@ -19,17 +19,16 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(model => model.Name)
+            
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=Model.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=Model.Id })
         </td>
     </tr>
-}
 
 </table>

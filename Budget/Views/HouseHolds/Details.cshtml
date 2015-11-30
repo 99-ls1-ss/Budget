@@ -1,9 +1,11 @@
-﻿@using System.Collections
+﻿@model Budget.Models.HouseHold
+@using System.Collections
 @using Budget.Models
-@model Budget.Models.HouseHold
+
 
 @{
     ViewBag.Title = "Details";
+    
 }
 
 <h2>Details</h2>
@@ -11,7 +13,7 @@
 <div>
     <h4>House Hold</h4>
     <hr />
-    <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household.</a>
+    <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-useremail="" data-sentcode="" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household.</a>
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => Model.Id)
@@ -38,8 +40,9 @@
                         <div class="post-comments">
                             <div class="col-md-12">
                                 <form class="invitation-form" role="form" method="post" action="@Url.Action("Invite", "Households")">
-                                    <input type="hidden" name="memberId" value="" />
-                                    <input type="hidden" name="householdId" value="@Model.Id" />
+                                    @*<input type="hidden" name="householdId" id="" value="@Model.Id" />*@
+                                    @Html.HiddenFor(m => Model.Id)
+                                    <input type="hidden" name="sentCode" id="sentCode" value="" />
                                     <h5 class="subpage-title">Send Invitation</h5>
                                     <input name="inviteEmail" id="inviteEmail" value="" placeholder="New Member Email" />
                                     <input type="submit" class="btn btn-flat flat-color" value="Send Invitation" />
@@ -57,6 +60,8 @@
     <script>
         $('.jsCommentClass').click(function () {
             $('#householdId').val($(this).attr('data-houseHoldId'));
+            $('#inviteEmail').val($(this).attr('data-useremail'));
+            $('#sentCode').val($(this).attr('data-sentcode'));
         });
     </script>
 }

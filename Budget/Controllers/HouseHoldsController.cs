@@ -12,25 +12,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
 namespace Budget.Controllers {
+    [Authorize]
     public class HouseHoldsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: HouseHold
-        public ActionResult Index(int id) {
+        
+        public ActionResult Index() {
 
+            var user = db.Users.Find(User.Identity.GetUserId());           
+            var id = user.HouseHoldId;
             HouseHold household = db.HouseHoldData.Find(id);
-            var userHouseholdId = db.Users.Where(u => u.HouseHoldId == household.Id);
 
-            return View(db.HouseHoldData.ToList());
+            if(!Request.IsAuthenticated) {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if(id != null) {            
+                return View(household);
+            }
+            else {
+                return RedirectToAction("Create");
+            }
         }
 
         // GET: HouseHolds/Details/5
         public ActionResult Details(int? id) {
-            if(id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
 
+            //var user = db.Users.Find(User.Identity.GetUserId());
+            //var id = user.HouseHoldId;
             HouseHold household = db.HouseHoldData.Find(id);
+            if(household == null) {
+                return HttpNotFound();
+            }
 
             return View(household);
         }
@@ -39,13 +53,14 @@ namespace Budget.Controllers {
         [HttpPost]
         public ActionResult Invite(HouseHold household, string inviteEmail) {
 
+            //var callbackUrl = Url.Action("JoinHousehold", "Details", null, protocol: Request.Url.Scheme);
             var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
             var code = Guid.NewGuid().ToString("n");
             EmailService es = new EmailService();
             IdentityMessage im = new IdentityMessage() {
                 Destination = inviteEmail,
                 Subject = "You have been invited to join the " + household.Name + ".",
-                Body = "You can join the " + household.Name + " by clicking the following link. <br />" + callbackUrl + "<br />Your Access Code is: " + code
+                Body = "You can join the " + household.Name + " by clicking the following link. <br />" + callbackUrl + "<br /> Verification Code:" + code
             };
             es.SendAsync(im);
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -59,6 +74,25 @@ namespace Budget.Controllers {
             return RedirectToAction("Details", new { id = household.Id });
         }
 
+        [HttpPost]
+        public ActionResult JoinHousehold(int householdId, string inviteEmail, string sentCode) {
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
+            var member = db.MemberData.Where(m => m.Email == inviteEmail).FirstOrDefault();
+            var memberCode = db.MemberData.Where(c => c.GUID == sentCode).FirstOrDefault();
+            var household = db.MemberData.Where(h => h.HouseHoldId == householdId).FirstOrDefault();
+
+            if(sentCode == memberCode.GUID && inviteEmail == memberCode.Email && householdId == memberCode.HouseHoldId) {
+                user.HouseHoldId = householdId;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = householdId });
+            }
+            else {
+                return RedirectToAction("Login", "Account");
+            }
+            
+        }
 
         // GET: HouseHolds/Create
         public ActionResult Create() {
