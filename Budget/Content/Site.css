@@ -23,9 +23,16 @@ textarea {
     max-width: 280px;
 }
 
-.font-red {
+.font-red a {
     color:red;
 }
+
 .balance {
-    text-align:right;
+        text-align:right;
+    }
+
+@media (max-width: 767px) {
+    .balance {
+        text-align:left;
+    }
 }

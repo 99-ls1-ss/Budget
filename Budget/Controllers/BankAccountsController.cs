@@ -89,13 +89,14 @@ namespace Budget.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,HouseHoldId,Balance")] BankAccount bankAccount) {
-            if(ModelState.IsValid) {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            
                 db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
-            return View(bankAccount);
+                //return RedirectToAction("Index");
+            
+            //ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
+            return RedirectToAction("Index", "HouseHolds", new { id = user.HouseHoldId });
         }
 
         // GET: BankAccounts/Delete/5
@@ -114,10 +115,11 @@ namespace Budget.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
+            var user = db.Users.Find(User.Identity.GetUserId());
             BankAccount bankAccount = db.BankAccountData.Find(id);
             db.BankAccountData.Remove(bankAccount);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Households", new { id = user.HouseHoldId });
         }
 
         protected override void Dispose(bool disposing) {

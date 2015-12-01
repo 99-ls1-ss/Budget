@@ -43,37 +43,34 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Name</a>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 balance">
+            <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
                 @if(accounts.Balance < 0) {
-                    <span class="font-red">@accounts.Balance</span>
+                    <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
                 }
                 else {
-                    <span class=""> @accounts.Balance</span>
+                    <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
                 }
 
             </div>
         </div>
     }
-</div>
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <label>Members of this Household.</label>
-    </div>
-</div>
-@foreach(var member in Model.Users) {
+
+    <hr />
     <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            @member.DisplayName
-        </div>
-        <div class="col-md-8 col-sm-6 col-xs-12">
-            @member.Email
+        <div class="col-md-12">
+            <label>Members of this Household.</label>
         </div>
     </div>
-}
-
-
-
+    @foreach(var member in Model.Users) {
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @member.DisplayName
+            </div>
+            <div class="col-md-8 col-sm-6 col-xs-12">
+                @member.Email
+            </div>
+        </div>
+    }
 </div>
 
 

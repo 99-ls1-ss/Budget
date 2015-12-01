@@ -25,14 +25,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.HouseHoldId, "HouseHoldId", htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.DropDownList("HouseHoldId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.HouseHoldId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
@@ -44,6 +36,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-flat flat-color" />
+                <input type="submit" value="Delete" class="btn btn-flat flat-color" /> 
             </div>
         </div>
     </div>
