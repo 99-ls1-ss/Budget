@@ -10,4 +10,14 @@
 <h2>Join Household?</h2>
 <div>
     Do you wish to join the @Html.DisplayFor(m => m.Name) household?  
+
+    <form action="@Url.Action("JoinHousehold", "HouseHolds")" method="post" id="joinHousehold" role="form" name="joinHousehold">
+        <div>
+            Would you like to joing this household?
+
+            <button>Yes</button>
+        </div>
+
+    </form>
+
 </div>

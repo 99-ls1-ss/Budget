@@ -5,29 +5,76 @@
 
 @{
     ViewBag.Title = "Details";
+
 }
 
-<h2>Details</h2>
+@Html.AntiForgeryToken()
 
 <div>
     <h4>House Hold</h4>
     <hr />
-    <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-useremail="" data-sentcode="" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household.</a>
 
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => Model.Id)
+    <div class="row">
+        <div class="col-md-4">
+            <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-useremail="" data-sentcode="" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household</a>
+        </div>
+        <form action="@Url.Action("LeaveHousehold", "HouseHolds")" method="post" name="LeaveHousehold">
+            @Html.HiddenFor(m => Model.Id)
+            <div class="col-md-4">
+                <a href="#" onclick="form.submit();">Leave Household</a>
+            </div>
+        </form>
+        <div class="col-md-4">
+            @Html.ActionLink("Add Bank Account", "Create", "BankAccounts")
+        </div>
+    </div>
 
-    @foreach(var member in Model.Users) {
+    <hr />
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>Bank Account Name</label>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>Bank Account Balance</label>
+        </div>
+    </div>
+    @foreach(var accounts in Model.BankAccounts) {
         <div class="row">
-            <div class="col-md-6">@member.DisplayName</div>
-            <div class="col-md-6">@member.Email</div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Name</a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 balance">
+                @if(accounts.Balance < 0) {
+                    <span class="font-red">@accounts.Balance</span>
+                }
+                else {
+                    <span class=""> @accounts.Balance</span>
+                }
+
+            </div>
         </div>
     }
-    <div>
-        @Html.ActionLink("Back to List", "Index")
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <label>Members of this Household.</label>
     </div>
 </div>
+@foreach(var member in Model.Users) {
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            @member.DisplayName
+        </div>
+        <div class="col-md-8 col-sm-6 col-xs-12">
+            @member.Email
+        </div>
+    </div>
+}
 
+
+
+</div>
 
 
 <div id="sendInvitation" class="modal fade" role="dialog">

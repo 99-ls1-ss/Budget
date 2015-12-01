@@ -7,27 +7,40 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Budget.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Budget.Controllers {
+    [AuthorizeHouseholdRequired]
     public class BankAccountsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: BankAccounts
-        public ActionResult Index() {
+        public ActionResult Index(HouseHold household) {
+
+            var user = db.Users.Find(User.Identity.GetUserId());
             var bankAccountData = db.BankAccountData.Include(b => b.HouseHold);
-            return View(bankAccountData.ToList());
+            var myAccounts = db.BankAccountData.Where(a => a.HouseHoldId == user.HouseHoldId).ToList();
+            
+            if(bankAccountData != null){
+                return RedirectToAction("Details", new { id = user.HouseHoldId});
+            }
+
+            return RedirectToAction("Create");
         }
 
         // GET: BankAccounts/Details/5
-        public ActionResult Details(int? id) {
-            if(id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccountData.Find(id);
+        public ActionResult Details(int? bankAccountId, int? householdId) {
+
+            BankAccount bankAccount = db.BankAccountData.Find(bankAccountId);
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var myAccounts = db.BankAccountData.Where(a => a.HouseHoldId == user.HouseHoldId).ToList();
+            
             if(bankAccount == null) {
-                return HttpNotFound();
+                return RedirectToAction("Create");
             }
-            return View(bankAccount);
+            return View(myAccounts);
         }
 
         // GET: BankAccounts/Create
@@ -42,24 +55,29 @@ namespace Budget.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,HouseHoldId,Balance")] BankAccount bankAccount) {
-            if(ModelState.IsValid) {
-                db.BankAccountData.Add(bankAccount);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
-            return View(bankAccount);
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            //if(ModelState.IsValid) {
+                db.BankAccountData.Add(bankAccount);
+                bankAccount.HouseHoldId = user.HouseHoldId;
+                db.SaveChanges();
+                return RedirectToAction("Index", "HouseHolds", new { id = user.HouseHoldId });
+            //}
+
+            //ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
+            //return View(bankAccount);
         }
 
         // GET: BankAccounts/Edit/5
         public ActionResult Edit(int? id) {
-            if(id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var householdId = db.BankAccountData.Where(h => h.HouseHoldId == user.HouseHoldId);
             BankAccount bankAccount = db.BankAccountData.Find(id);
-            if(bankAccount == null) {
-                return HttpNotFound();
+
+            if(householdId == null) {
+                return RedirectToAction("Create");
             }
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);

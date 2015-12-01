@@ -17,29 +17,28 @@ namespace Budget.Controllers {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: HouseHold
-        
-        public ActionResult Index() {
+        public ActionResult Index(int? id, string sentCode, string inviteEmail) {
 
+            var memberInvitation = db.MemberData.Where(g => g.Email == inviteEmail).FirstOrDefault();
             var user = db.Users.Find(User.Identity.GetUserId());           
-            var id = user.HouseHoldId;
+            //var id = user.HouseHoldId;
             HouseHold household = db.HouseHoldData.Find(id);
 
             if(!Request.IsAuthenticated) {
                 return RedirectToAction("Login", "Account");
-            }
-
-            if(id != null) {            
-                return View(household);
-            }
-            else {
+            } else if(user.HouseHoldId == null) {
                 return RedirectToAction("Create");
+            } else if(memberInvitation != null && memberInvitation.GUID == sentCode && memberInvitation.IsRegistered != true) {
+                return RedirectToAction("JoinHousehold");
+            } else {
+                return RedirectToAction("Details", new { id = user.HouseHoldId });
             }
         }
 
         // GET: HouseHolds/Details/5
         public ActionResult Details(int? id) {
 
-            //var user = db.Users.Find(User.Identity.GetUserId());
+            var user = db.Users.Find(User.Identity.GetUserId());
             //var id = user.HouseHoldId;
             HouseHold household = db.HouseHoldData.Find(id);
             if(household == null) {
@@ -54,8 +53,7 @@ namespace Budget.Controllers {
         public ActionResult Invite(HouseHold household, string inviteEmail) {
 
             var code = Guid.NewGuid().ToString("n");
-            var callbackUrl = Url.Action("JoinHousehold", "HouseHolds", new { id=household.Id, sentCode = code, inviteEmail = inviteEmail}, protocol: Request.Url.Scheme);
-            //var callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme);
+            var callbackUrl = Url.Action("JoinHousehold", "HouseHolds", new { id = household.Id, sentCode = code, inviteEmail = inviteEmail}, protocol: Request.Url.Scheme);
             
             EmailService es = new EmailService();
             IdentityMessage im = new IdentityMessage() {
@@ -77,13 +75,34 @@ namespace Budget.Controllers {
 
 
         // GET: HouseHolds/JoinHousehold
+        [Authorize]
         public ActionResult JoinHousehold(int? id, string sentCode, string inviteEmail) {
 
-            ApplicationUser user = new ApplicationUser();
-            var guid = db.MemberData.Where(g => g.GUID == sentCode).FirstOrDefault();
+            var memberInvitation = db.MemberData.Where(g => g.Email == inviteEmail && g.IsRegistered == false).FirstOrDefault();
 
-            return View();
+            if(memberInvitation == null) {
+                return RedirectToAction("Create");
+            } else if(memberInvitation.GUID == sentCode) {
+                var user = db.Users.Find(User.Identity.GetUserId());
+                user.HouseHoldId = id;
+                memberInvitation.IsRegistered = true;
+                db.SaveChanges();
+                return RedirectToAction("Index", "BankAccounts");
+            }
+
+            return RedirectToAction("Create");
         }
+
+        [HttpPost]
+        [AuthorizeHouseholdRequired]
+        public async Task<ActionResult> LeaveHousehold() {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            user.HouseHoldId = null;
+            db.SaveChanges();
+            await ControllerContext.HttpContext.RefreshAuthentication(user);
+            return RedirectToAction("Create");
+        }
+
 
         // GET: HouseHolds/Create
         public ActionResult Create() {
@@ -97,10 +116,13 @@ namespace Budget.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name")] HouseHold houseHold) {
             if(ModelState.IsValid) {
-                var user = db.Users.Find(User.Identity.GetUserId()); 
-                db.HouseHoldData.Add(houseHold);
-                db.SaveChanges();
-                //TODO
+                var user = db.Users.Find(User.Identity.GetUserId());
+
+                if(user.HouseHoldId == null) {
+                    db.HouseHoldData.Add(houseHold);
+                    user.HouseHoldId = houseHold.Id;
+                    db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
