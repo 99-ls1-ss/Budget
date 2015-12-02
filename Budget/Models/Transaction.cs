@@ -16,20 +16,20 @@ namespace Budget.Models {
         public bool IsDeleted { get; set; }
 
         [Display(Name = "Date Created")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mmtt}")]
+        [DisplayFormat(DataFormatString = "{0:M/dd/yyyy hh:mmtt}")]
         public DateTimeOffset DateCreated { get; set; }
         
         [Display(Name = "Date Updated")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mmtt}")]
+        [DisplayFormat(DataFormatString = "{0:M/dd/yyyy hh:mmtt}")]
         public Nullable<DateTimeOffset> DateEdited { get; set; }
 
         [Display(Name = "Transaction Amount")]
         public decimal TransactionAmount { get; set; }
 
         [Display(Name = "Reconsiliation Amount")]
-        public decimal ReconsiliationAmount { get; set; }
+        public decimal? ReconsiliationAmount { get; set; }
 
-        [Display(Name = "Transaction Description")]
+        [Display(Name = "Description")]
         public string TransactionDescription { get; set; }        
 
         public virtual Category Category { get; set; }

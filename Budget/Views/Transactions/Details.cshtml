@@ -5,94 +5,132 @@
 }
 
 <h2>Details</h2>
-
+@Html.ActionLink("Back to Transactions", "Index")
 <div>
     <h4>Transaction</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BankAccount.Name)
-        </dt>
+    <div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.BankAccount.Name)
+                </label>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.BankAccount.Name)
-        </dd>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.BankAccount.Name)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.Category.Name)
+                </label>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Category.Name)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.User.DisplayName)
+                </label>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.User.DisplayName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    <span>Transaction Type</span>
+                </label>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+            <div class="col-md-7">
+                @if(Model.IsWithdrawl == true) {
+                    <span>Withdrawl</span>
+                }
+                else {
+                    <span>Deposit</span>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </label>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.DateCreated)
+            </div>
+        </div>
+        @if(Model.DateEdited != null) { 
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.DateEdited)
+                </label>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsWithdrawl)
-        </dt>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.DateEdited)
+            </div>
+        </div>
+        }
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.TransactionAmount)
+                </label>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsWithdrawl)
-        </dd>
+            <div class="col-md-7">
+                <span>$ </span>@Html.DisplayFor(model => model.TransactionAmount)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.ReconsiliationAmount)
+                </label>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.ReconsiliationAmount)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 text-right">
+                <label>
+                    @Html.DisplayNameFor(model => model.TransactionDescription)
+                </label>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.TransactionDescription)
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateEdited)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateEdited)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TransactionAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TransactionAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReconsiliationAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReconsiliationAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TransactionDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TransactionDescription)
-        </dd>
-
-    </dl>
+    <div class="row">
+        <div class="col-md-7 text-right">
+            <form method="post" action="@Url.Action("Delete")" name="Delete">
+                @*@using(Html.BeginForm()) {*@
+                    @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-flat flat-color" />
+                    </div>
+                @*}*@
+            </form>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

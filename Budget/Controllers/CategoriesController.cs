@@ -39,7 +39,7 @@ namespace Budget.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Category category) {
+        public ActionResult Create([Bind(Include = "Id,Name,IsDeposit")] Category category) {
             if(ModelState.IsValid) {
                 db.CategoryData.Add(category);
                 db.SaveChanges();
@@ -66,7 +66,7 @@ namespace Budget.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Category category) {
+        public ActionResult Edit([Bind(Include = "Id,Name,IsDeposit")] Category category) {
             if(ModelState.IsValid) {
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();

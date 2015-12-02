@@ -36,3 +36,16 @@ textarea {
         text-align:left;
     }
 }
+
+#transactionTable tbody a {
+    color:#000;
+}
+
+#transactionTable .text-right a {
+    padding-right:8px;
+    color:red;
+}
+
+#transactionTable .deposit .text-right a {
+    color:#000;
+}

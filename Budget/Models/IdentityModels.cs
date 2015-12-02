@@ -9,6 +9,7 @@ using System.Web;
 using Budget.Helpers;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity.Owin;
+using System.ComponentModel.DataAnnotations;
 
 namespace Budget.Models {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -21,6 +22,7 @@ namespace Budget.Models {
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Display(Name = "Member Name")]
         public string DisplayName { get; set; }
         public int? HouseHoldId { get; set; }
 

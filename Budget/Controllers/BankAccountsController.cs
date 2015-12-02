@@ -88,10 +88,15 @@ namespace Budget.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,HouseHoldId,Balance")] BankAccount bankAccount) {
+        public ActionResult Edit(BankAccount bankAccount) {
             var user = db.Users.Find(User.Identity.GetUserId());
-            
-                db.Entry(bankAccount).State = EntityState.Modified;
+                
+                db.BankAccountData.Attach(bankAccount);
+                db.Entry(bankAccount).Property(p => p.Name).IsModified = true;
+                db.Entry(bankAccount).Property(p => p.HouseHoldId).IsModified = true;
+                db.Entry(bankAccount).Property(p => p.Balance).IsModified = true;
+
+                //db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
             
