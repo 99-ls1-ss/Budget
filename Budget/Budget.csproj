@@ -467,6 +467,8 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Account\Invitation.cshtml" />
     <Content Include="Views\HouseHolds\JoinHousehold.cshtml" />
+    <Content Include="Views\Transactions\_Withdrawl.cshtml" />
+    <Content Include="Views\Transactions\_Deposit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

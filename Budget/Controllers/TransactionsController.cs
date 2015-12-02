@@ -48,6 +48,34 @@ namespace Budget.Controllers {
             return View();
             }
 
+        // GET: Transactions/_Withdrawl
+        public PartialViewResult _Withdrawl() {
+            HouseHold households = new HouseHold();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
+            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+
+            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == false), "Id", "Name", "IsDeposit");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+
+            return PartialView();
+        }
+
+        // GET: Transactions/_Withdrawl
+        public PartialViewResult _Deposit() {
+            HouseHold households = new HouseHold();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
+            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+
+            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == true), "Id", "Name", "IsDeposit");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+
+            return PartialView();
+        }
+
         // POST: Transactions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
