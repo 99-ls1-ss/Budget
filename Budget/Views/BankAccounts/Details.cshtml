@@ -4,39 +4,56 @@
     ViewBag.Title = "Details";
 }
 
+<link href="~/Content/DataTables-1.10.10/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 <h2>Details</h2>
 
-<div>
-    <h4>BankAccount</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseHold.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.HouseHold.Name)
-        </dd>
+@Html.HiddenFor(m => m.Id)
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <h3>@Model.Name</h3>
+    </div>
+    <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
+        @if(Model.Balance < 0) {
+            <h3><span class="font-red">@Model.Balance</span></h3>
+        }
+        else {
+            <h3><span class="">@Model.Balance</span></h3>
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Balance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
-
-    </dl>
+    </div>
 </div>
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div>
+    @Html.HiddenFor(m => m.Id)
+    @Html.Action("_Transactions","Transactions", new { bankAccountId = Model.Id })
+</div>
+
+@section scripts{
+    <script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#transactionTable2').DataTable({
+                //"order": [[0, "desc"]],
+                "columnDefs": [
+            {
+                "targets": [0],
+                "sType": "date",
+                "visible": false,
+                "searchable": false,
+                "order": [0, "desc"]
+            }
+                ]
+            });
+        });
+    </script>
+}

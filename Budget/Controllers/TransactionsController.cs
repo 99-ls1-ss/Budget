@@ -7,9 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Budget.Models;
+using Budget.Helpers;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
 namespace Budget.Controllers {
+    [Authorize]
     public class TransactionsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -33,6 +36,31 @@ namespace Budget.Controllers {
                 }
             return View(transaction);
             }
+
+
+        // GET: Transactions/_Transactions
+        public PartialViewResult _Transactions(int? bankAccountId) {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccounts = db.BankAccountData.Find(bankAccountId);
+            var transaction = bankAccounts.Transactions.ToList();           
+
+            return PartialView(transaction);
+        }
+
+
+        // GET: Transactions/_Transactions
+        public PartialViewResult _CatTransactions() {
+
+            TransactionByCategoryVM vm = new TransactionByCategoryVM();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+            
+            vm.Categories = db.CategoryData.ToList();
+            vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).ToList();
+
+            return PartialView(vm);
+        }
+
 
         // GET: Transactions/Create
         public ActionResult Create() {

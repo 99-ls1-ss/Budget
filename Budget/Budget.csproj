@@ -193,12 +193,14 @@
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\BudgetItems.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\HouseHold.cs" />
     <Compile Include="Models\HouseholdUser.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\TransactionByCategoryVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -469,6 +471,11 @@
     <Content Include="Views\HouseHolds\JoinHousehold.cshtml" />
     <Content Include="Views\Transactions\_Withdrawl.cshtml" />
     <Content Include="Views\Transactions\_Deposit.cshtml" />
+    <Content Include="Views\HouseHolds\_Members.cshtml" />
+    <Content Include="Views\HouseHolds\_BankAccounts.cshtml" />
+    <Content Include="Views\Transactions\_Transactions.cshtml" />
+    <Content Include="Views\HouseHolds\Dashboard.cshtml" />
+    <Content Include="Views\Transactions\_CatTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

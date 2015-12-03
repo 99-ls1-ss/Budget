@@ -48,6 +48,36 @@ namespace Budget.Controllers {
             return View(household);
         }
 
+        // GET Partial: HouseHolds/_Members 
+        public PartialViewResult _Members(int? id) {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            HouseHold household = db.HouseHoldData.Find(id);
+            return PartialView();
+        }
+
+        // GET Partial: HouseHolds/_BankAccounts 
+        public PartialViewResult _BankAccounts(int? id) {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccounts = db.BankAccountData.Find(id);
+            HouseHold household = db.HouseHoldData.Find(id);
+            return PartialView(household);
+        }
+
+
+        
+
+
+        // GET Dashboard: HouseHolds/Dashboard
+        public ActionResult Dashboard() { 
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccounts = db.BankAccountData.Find(user.HouseHoldId);
+            Transaction transactions = db.TransactionData.Find(bankAccounts.HouseHoldId);
+            HouseHold household = db.HouseHoldData.Find(user.HouseHoldId);
+
+            return View(household);
+        }
+
         // GET: HouseHolds/Invitation
         [HttpPost]
         public ActionResult Invite(HouseHold household, string inviteEmail) {

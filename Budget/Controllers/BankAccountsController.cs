@@ -35,10 +35,10 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
 
-            var myAccounts = db.BankAccountData.Where(a => a.HouseHoldId == user.HouseHoldId).ToList();
+            var myAccounts = db.BankAccountData.Find(bankAccountId);
             
             if(bankAccount == null) {
-                return RedirectToAction("Create");
+                //return RedirectToAction("Create");
             }
             return View(myAccounts);
         }

@@ -1,0 +1,19 @@
+﻿@using Budget.Models;
+@using System.Collections;
+@model HouseHold
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(t => t.BankAccounts)
+
+<div class="">    
+    @Html.Action("_BankAccounts", "HouseHolds", new { id = Model.Id })
+</div>
+
+<div class="">
+    @Html.Action("_CatTransactions", "Transactions", new { categoryId = Model.Id })
+</div>

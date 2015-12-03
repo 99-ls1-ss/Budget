@@ -1,0 +1,11 @@
+﻿@*@model Budget.Models.Transaction*@
+@model Budget.Models.TransactionByCategoryVM
+
+@{
+
+}
+
+<div>Categories</div>
+@foreach(var category in Model.Categories) {
+    <div>@category.Name</div>
+}

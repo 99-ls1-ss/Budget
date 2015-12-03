@@ -2,10 +2,8 @@
 @using System.Collections
 @using Budget.Models
 
-
 @{
     ViewBag.Title = "Details";
-
 }
 
 @Html.AntiForgeryToken()
@@ -28,33 +26,6 @@
             @Html.ActionLink("Add Bank Account", "Create", "BankAccounts")
         </div>
     </div>
-
-    <hr />
-    <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <label>Bank Account Name</label>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <label>Bank Account Balance</label>
-        </div>
-    </div>
-    @foreach(var accounts in Model.BankAccounts) {
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Name</a>
-            </div>
-            <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
-                @if(accounts.Balance < 0) {
-                    <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
-                }
-                else {
-                    <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
-                }
-
-            </div>
-        </div>
-    }
-
     <hr />
     <div class="row">
         <div class="col-md-12">
@@ -71,6 +42,39 @@
             </div>
         </div>
     }
+    <hr />
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label>Bank Account Name</label>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label>Bank Account Balance</label>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label>Transactions</label>
+        </div>
+    </div>
+    @foreach(var accounts in Model.BankAccounts) {
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Name</a>
+            </div>
+            <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
+                @if(accounts.Balance < 0) {
+                    <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Balance</a></span>
+                }
+                else {
+                    <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Balance</a></span>
+                }
+
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <a href="@Url.Action("Details", "BankAccounts", new { bankAccountId = accounts.Id })">View Transactions</a>
+            </div>
+        </div>
+    }
+
+    
 </div>
 
 
