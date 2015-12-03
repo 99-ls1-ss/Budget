@@ -85,7 +85,8 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
-            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+            //var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+            var bankAccounts = db.BankAccountData.Find(transaction.BankAccountId);
 
             if(ModelState.IsValid) {
 
@@ -93,6 +94,8 @@ namespace Budget.Controllers {
             transaction.TransactionAmount = transaction.TransactionAmount * -1;
             transaction.UserId = user.Id;
             transaction.DateCreated = DateTimeOffset.Now;
+
+            bankAccounts.Balance = bankAccounts.Balance + transaction.TransactionAmount;
 
             db.TransactionData.Add(transaction);
             db.SaveChanges();   
@@ -114,13 +117,15 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
-            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+            var bankAccounts = db.BankAccountData.Find(transaction.BankAccountId);
 
             if(ModelState.IsValid) {
 
                 transaction.IsWithdrawl = false;
                 transaction.UserId = user.Id;
                 transaction.DateCreated = DateTimeOffset.Now;
+
+                bankAccounts.Balance = bankAccounts.Balance + transaction.TransactionAmount;
 
                 db.TransactionData.Add(transaction);
                 db.SaveChanges();
