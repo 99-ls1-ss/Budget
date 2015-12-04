@@ -1,13 +1,13 @@
 ﻿@model Budget.Models.TransactionByCategoryVM
 
 @{
-    string deposit = "";
+
 }
 
-@foreach(var category in Model.Categories) {
-    <h4>@category.Name</h4>
 
-    <table class="table" id="transactionTable2">
+
+
+    <table class="table" id="transactionTable1">
         <thead>
             <tr>
                 <th></th>
@@ -33,17 +33,11 @@
                     @Html.DisplayNameFor(model => model.Transaction.TransactionDescription)
                 </th>
             </tr>
-        </thead>       
+        </thead>
 
         <tbody>
-            @foreach(var transaction in Model.Transactions.Where(t => t.CategoryId == category.Id)) {
-                if(transaction.IsWithdrawl != true) {
-                    deposit = "deposit";
-                }
-                else {
-                    deposit = "";
-                }
-                <tr class="@deposit">
+            @foreach(var transaction in Model.Transactions.Where(t => t.IsWithdrawl == true)) {
+                <tr class="">
                     <td>
                         @Html.DisplayFor(modelItem => transaction.DateCreated)
                     </td>
@@ -87,4 +81,4 @@
         </tbody>
 
     </table>
-}
+

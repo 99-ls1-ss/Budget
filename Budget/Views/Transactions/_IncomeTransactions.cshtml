@@ -1,0 +1,84 @@
+﻿@model Budget.Models.TransactionByCategoryVM
+
+@{
+
+}
+
+
+<table class="table" id="transactionTable3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.BankAccount.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction.DateEdited)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction.User.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction.TransactionAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction.TransactionDescription)
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var transaction in Model.Transactions.Where(t => t.IsWithdrawl == false)) {
+            <tr class="">
+                <td>
+                    @Html.DisplayFor(modelItem => transaction.DateCreated)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.BankAccount.Name)
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.Category.Name)
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.DateCreated)
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.DateEdited)
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.User.DisplayName)
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.TransactionAmount)
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Transactions", new { id = transaction.Id })">
+                        @Html.DisplayFor(modelItem => transaction.TransactionDescription)
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+

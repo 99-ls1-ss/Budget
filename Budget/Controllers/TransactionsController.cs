@@ -48,7 +48,7 @@ namespace Budget.Controllers {
         }
 
 
-        // GET: Transactions/_Transactions
+        // GET: Transactions/_CatTransactions
         public PartialViewResult _CatTransactions() {
 
             TransactionByCategoryVM vm = new TransactionByCategoryVM();
@@ -59,6 +59,35 @@ namespace Budget.Controllers {
             vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
 
             return PartialView(vm);
+        }
+
+
+        // GET: Transactions/_WithdrawlTransactions
+        public PartialViewResult _WithdrawlTransactions() {
+
+            TransactionByCategoryVM incomeExpense = new TransactionByCategoryVM();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+
+            incomeExpense.Categories = db.CategoryData.ToList();
+
+            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
+
+            return PartialView(incomeExpense);
+        }
+
+        // GET: Transactions/_IncomeTransactions
+        public PartialViewResult _IncomeTransactions() {
+
+            TransactionByCategoryVM incomeExpense = new TransactionByCategoryVM();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+
+            incomeExpense.Categories = db.CategoryData.ToList();
+
+            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
+
+            return PartialView(incomeExpense);
         }
 
 
