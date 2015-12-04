@@ -2,7 +2,6 @@
 
 <form class="comment-form" role="form" method="post" name="Withdrawl" action="@Url.Action("Withdrawl", "Transactions" )">
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.BankAccountId)
     <div class="form-horizontal">
         <h4>Withdrawls</h4>
         <hr />

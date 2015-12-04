@@ -5,7 +5,7 @@
 }
 
 <h2>Add Transaction</h2>
-
+@Html.HiddenFor(b => b.BankAccountId)
 <div class="row">
     <div class="col-md-6 col-xs-12">
         @Html.Action("_Withdrawl","Transactions")

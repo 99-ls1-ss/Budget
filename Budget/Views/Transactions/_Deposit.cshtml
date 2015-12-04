@@ -2,7 +2,6 @@
 
 <form class="comment-form" role="form" method="post" name="Deposit" action="@Url.Action("Deposit", "Transactions" )">
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.BankAccountId)
     <div class="form-horizontal">
         <h4>Deposits</h4>
         <hr />

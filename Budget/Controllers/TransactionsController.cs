@@ -70,7 +70,6 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
 
             incomeExpense.Categories = db.CategoryData.ToList();
-
             incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
 
             return PartialView(incomeExpense);
@@ -84,7 +83,6 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
 
             incomeExpense.Categories = db.CategoryData.ToList();
-
             incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
 
             return PartialView(incomeExpense);
@@ -109,7 +107,7 @@ namespace Budget.Controllers {
         public PartialViewResult _Withdrawl() {
             HouseHold households = new HouseHold();
             var user = db.Users.Find(User.Identity.GetUserId());
-            //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
+            var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
@@ -123,9 +121,8 @@ namespace Budget.Controllers {
         public PartialViewResult _Deposit() {
             HouseHold households = new HouseHold();
             var user = db.Users.Find(User.Identity.GetUserId());
-            //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
+            var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
-
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
             ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == true), "Id", "Name", "IsDeposit");
@@ -143,21 +140,20 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
-            //var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
-            var bankAccounts = db.BankAccountData.Find(transaction.BankAccountId);
+            var bankAccount = db.BankAccountData.Single(b => b.Id == transaction.BankAccountId);
 
             if(ModelState.IsValid) {
 
-            transaction.IsWithdrawl = true;
-            transaction.TransactionAmount = transaction.TransactionAmount * -1;
-            transaction.UserId = user.Id;
-            transaction.DateCreated = DateTimeOffset.Now;
+                transaction.IsWithdrawl = true;
+                transaction.TransactionAmount = transaction.TransactionAmount * -1;
+                transaction.UserId = user.Id;
+                transaction.DateCreated = DateTimeOffset.Now;
 
-            bankAccounts.Balance = bankAccounts.Balance + transaction.TransactionAmount;
+                bankAccount.Balance = bankAccount.Balance + transaction.TransactionAmount;
 
-            db.TransactionData.Add(transaction);
-            db.SaveChanges();   
-            return RedirectToAction("Index");
+                db.TransactionData.Add(transaction);
+                db.SaveChanges();   
+                return RedirectToAction("Index");
             }
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData, "Id", "Name", transaction.BankAccountId);
@@ -175,7 +171,7 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
-            var bankAccounts = db.BankAccountData.Find(transaction.BankAccountId);
+            var bankAccount = db.BankAccountData.Single(b => b.Id == transaction.BankAccountId);
 
             if(ModelState.IsValid) {
 
@@ -183,7 +179,7 @@ namespace Budget.Controllers {
                 transaction.UserId = user.Id;
                 transaction.DateCreated = DateTimeOffset.Now;
 
-                bankAccounts.Balance = bankAccounts.Balance + transaction.TransactionAmount;
+                bankAccount.Balance = bankAccount.Balance + transaction.TransactionAmount;
 
                 db.TransactionData.Add(transaction);
                 db.SaveChanges();
