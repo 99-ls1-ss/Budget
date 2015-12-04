@@ -71,9 +71,21 @@
                     </a>
                 </td>
                 <td class="text-right">
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.TransactionAmount)
-                    </a>
+                    @if(item.TransactionAmount < 0) {
+                        <span class="font-red">
+                            <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                @Html.DisplayFor(modelItem => item.TransactionAmount)
+                            </a>
+                        </span>
+                    }
+                    else {
+                        <span class="font-black">
+                            <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                @Html.DisplayFor(modelItem => item.TransactionAmount)
+                            </a>
+                        </span>
+                    }
+                    
                 </td>
                 <td>
                     <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">

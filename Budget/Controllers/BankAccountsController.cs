@@ -34,12 +34,11 @@ namespace Budget.Controllers {
             BankAccount bankAccount = db.BankAccountData.Find(bankAccountId);
 
             var user = db.Users.Find(User.Identity.GetUserId());
-
-            var myAccounts = db.BankAccountData.Find(bankAccountId);
             
-            if(bankAccount == null) {
-                //return RedirectToAction("Create");
-            }
+            var myAccounts = db.BankAccountData.Find(bankAccountId);
+
+            var accountBalance = db.TransactionData.Where(t => t.BankAccountId == myAccounts.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
+            
             return View(myAccounts);
         }
 
@@ -58,15 +57,11 @@ namespace Budget.Controllers {
 
             var user = db.Users.Find(User.Identity.GetUserId());
 
-            //if(ModelState.IsValid) {
-                db.BankAccountData.Add(bankAccount);
-                bankAccount.HouseHoldId = user.HouseHoldId;
-                db.SaveChanges();
-                return RedirectToAction("Index", "HouseHolds", new { id = user.HouseHoldId });
-            //}
+            db.BankAccountData.Add(bankAccount);
+            bankAccount.HouseHoldId = user.HouseHoldId;
+            db.SaveChanges();
+            return RedirectToAction("Index", "HouseHolds", new { id = user.HouseHoldId });
 
-            //ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
-            //return View(bankAccount);
         }
 
         // GET: BankAccounts/Edit/5
@@ -76,9 +71,9 @@ namespace Budget.Controllers {
             var householdId = db.BankAccountData.Where(h => h.HouseHoldId == user.HouseHoldId);
             BankAccount bankAccount = db.BankAccountData.Find(id);
 
-            if(householdId == null) {
-                return RedirectToAction("Create");
-            }
+            var myAccounts = db.BankAccountData.Find(id);
+            var accountBalance = db.TransactionData.Where(t => t.BankAccountId == myAccounts.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
+
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);
         }

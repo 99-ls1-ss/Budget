@@ -5,48 +5,65 @@
 }
 
 <h2>Edit</h2>
-
-<input type="submit" value="Delete" class="btn btn-flat flat-color" /> 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Bank Account</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.HouseHoldId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-flat flat-color" />
-                
-            </div>
-        </div>
-    </div>
-}
-
 <div>
     @Html.ActionLink("Back To Household", "Index", "Households")
+    @Html.ActionLink("Add Transaction", "Create", "Transactions")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+<input type="submit" value="Delete" class="btn btn-flat flat-color" />
+
+<div class="form-horizontal">
+    <h4>Bank Account</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.HouseHoldId)
+
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label col-md-2">Account Name:</label>
+            <div class="control-padding col-md-2">@Model.Name</div>
+            <label class="control-label col-md-2">Current Balance:</label>
+            <div class="control-padding col-md-2">
+                <span>$</span>
+                @if(Model.Balance < 0) {
+                    <span class="font-red">@Model.Balance</span>
+                }
+                else {
+                    <span>@Model.Balance</span>
+                }
+            </div>
+            <div class="control-padding col-md-4 text-center">@Html.ActionLink("New Transaction", "Create", "Transactions", new { @class = "text-center" })</div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div>
+    @Html.HiddenFor(m => m.Id)
+    @Html.Action("_Transactions", "Transactions", new { bankAccountId = Model.Id })
+</div>
+
+@section scripts{
+    <script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#transactionTable2').DataTable({
+                //"order": [[0, "desc"]],
+                "columnDefs": [
+            {
+                "targets": [0],
+                "sType": "date",
+                "visible": false,
+                "searchable": false,
+                "order": [0, "desc"]
+            }
+                ]
+            });
+        });
+    </script>
 }
+

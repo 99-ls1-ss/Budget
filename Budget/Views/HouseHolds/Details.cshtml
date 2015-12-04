@@ -57,18 +57,19 @@
     @foreach(var accounts in Model.BankAccounts) {
         <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-12">
-                <a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Name</a>
+                <a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Name</a>
             </div>
             <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
                 @if(accounts.Balance < 0) {
-                    <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Balance</a></span>
+                    <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
                 }
                 else {
-                    <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Balance</a></span>
+                    <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
                 }
 
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
+                @Html.HiddenFor(m => m.BankAccounts)
                 <a href="@Url.Action("Details", "BankAccounts", new { bankAccountId = accounts.Id })">View Transactions</a>
             </div>
         </div>

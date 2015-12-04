@@ -42,7 +42,7 @@ namespace Budget.Controllers {
         public PartialViewResult _Transactions(int? bankAccountId) {
             var user = db.Users.Find(User.Identity.GetUserId());
             BankAccount bankAccounts = db.BankAccountData.Find(bankAccountId);
-            var transaction = bankAccounts.Transactions.ToList();           
+            var transaction = bankAccounts.Transactions.Where(t => t.IsDeleted == false).ToList();           
 
             return PartialView(transaction);
         }
@@ -56,7 +56,7 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
             
             vm.Categories = db.CategoryData.ToList();
-            vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).ToList();
+            vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
 
             return PartialView(vm);
         }
@@ -96,6 +96,7 @@ namespace Budget.Controllers {
             var user = db.Users.Find(User.Identity.GetUserId());
             //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
             ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == true), "Id", "Name", "IsDeposit");

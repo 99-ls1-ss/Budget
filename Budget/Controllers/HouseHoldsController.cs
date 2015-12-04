@@ -39,7 +39,6 @@ namespace Budget.Controllers {
         public ActionResult Details(int? id) {
 
             var user = db.Users.Find(User.Identity.GetUserId());
-            //var id = user.HouseHoldId;
             HouseHold household = db.HouseHoldData.Find(id);
             if(household == null) {
                 return HttpNotFound();
@@ -62,9 +61,6 @@ namespace Budget.Controllers {
             HouseHold household = db.HouseHoldData.Find(id);
             return PartialView(household);
         }
-
-
-        
 
 
         // GET Dashboard: HouseHolds/Dashboard

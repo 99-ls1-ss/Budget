@@ -17,6 +17,7 @@
     <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
         @if(Model.Balance < 0) {
             <h3><span class="font-red">@Model.Balance</span></h3>
+            <h3><span class="font-red">@Model.Transactions.Select(a => a.TransactionAmount).Sum()</span></h3>
         }
         else {
             <h3><span class="">@Model.Balance</span></h3>
@@ -33,7 +34,7 @@
 </p>
 
 <div>
-    @Html.HiddenFor(m => m.Id)
+    @*@Html.HiddenFor(m => m.Id)*@
     @Html.Action("_Transactions","Transactions", new { bankAccountId = Model.Id })
 </div>
 

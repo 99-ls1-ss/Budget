@@ -2,7 +2,7 @@
 
 <form class="comment-form" role="form" method="post" name="Withdrawl" action="@Url.Action("Withdrawl", "Transactions" )">
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(m => m.BankAccountId)
     <div class="form-horizontal">
         <h4>Withdrawls</h4>
         <hr />
@@ -14,7 +14,6 @@
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <label class="control-label col-md-3">Bank Account</label>
             <div class="col-md-9">
@@ -28,14 +27,6 @@
             <div class="col-md-9">
                 @Html.EditorFor(model => model.TransactionAmount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TransactionAmount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReconsiliationAmount, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.ReconsiliationAmount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReconsiliationAmount, "", new { @class = "text-danger" })
             </div>
         </div>
 
