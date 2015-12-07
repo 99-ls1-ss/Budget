@@ -10,125 +10,148 @@
     <h4>Transaction</h4>
     <hr />
     <div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.BankAccount.Name)
-                </label>
+        
+        <form method="post" action="@Url.Action("Edit","Transactions")" name="Edit">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(c => c.CategoryId)
+            @Html.HiddenFor(b => b.BankAccountId)
+
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.BankAccount.Name)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.BankAccount.Name)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.Category.Name)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.Category.Name)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.User.DisplayName)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.User.DisplayName)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        <span>Transaction Type</span>
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @if(Model.IsWithdrawl == true) {
+                        <span>Withdrawl</span>
+                    }
+                    else {
+                        <span>Deposit</span>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.DateCreated)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.DateCreated)
+                </div>
+            </div>
+            @if(Model.DateEdited != null) {
+                <div class="row">
+                    <div class="col-md-5 text-right">
+                        <label>
+                            @Html.DisplayNameFor(model => model.DateEdited)
+                        </label>
+                    </div>
+
+                    <div class="col-md-7">
+                        @Html.DisplayFor(model => model.DateEdited)
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.TransactionAmount)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    <span>$ </span>@Html.EditorFor(model => model.TransactionAmount, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            @*<div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.ReconsiliationAmount)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.ReconsiliationAmount)
+                </div>
+            </div>*@
+            <div class="row">
+                <div class="col-md-5 text-right">
+                    <label>
+                        @Html.DisplayNameFor(model => model.TransactionDescription)
+                    </label>
+                </div>
+
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.TransactionDescription, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
 
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.BankAccount.Name)
+            <div class="row">
+                <div class="col-md-7 text-right">
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Edit" class="btn btn-flat flat-color" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.Category.Name)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.Category.Name)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.User.DisplayName)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.User.DisplayName)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    <span>Transaction Type</span>
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @if(Model.IsWithdrawl == true) {
-                    <span>Withdrawl</span>
-                }
-                else {
-                    <span>Deposit</span>
-                }
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.DateCreated)
-            </div>
-        </div>
-        @if(Model.DateEdited != null) { 
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.DateEdited)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.DateEdited)
-            </div>
-        </div>
-        }
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.TransactionAmount)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                <span>$ </span>@Html.DisplayFor(model => model.TransactionAmount)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.ReconsiliationAmount)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.ReconsiliationAmount)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 text-right">
-                <label>
-                    @Html.DisplayNameFor(model => model.TransactionDescription)
-                </label>
-            </div>
-
-            <div class="col-md-7">
-                @Html.DisplayFor(model => model.TransactionDescription)
-            </div>
-        </div>
-
-    </div>
-
+        </form>
+</div>
+    
+    
     <div class="row">
         <div class="col-md-7 text-right">
-            <form method="post" action="@Url.Action("Delete")" name="Delete">
-                @*@using(Html.BeginForm()) {*@
-                    @Html.AntiForgeryToken()
+            @*<form method="post" action="@Url.Action("Edit","Transactions")" name="Edit">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(b => b.BankAccountId)
+                <div class="form-actions no-color">
+                    <input type="submit" value="Edit" class="btn btn-flat flat-color" />
+                </div>
+            </form>
+            <br />*@
+            <form method="post" action="@Url.Action("Delete", "Transactions")" name="Delete">                
+                @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.Id)
-                    <div class="form-actions no-color">
-                        <input type="submit" value="Delete" class="btn btn-flat flat-color" />
-                    </div>
-                @*}*@
+                @Html.HiddenFor(b => b.BankAccountId)
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-flat flat-color" />
+                </div>
             </form>
         </div>
     </div>

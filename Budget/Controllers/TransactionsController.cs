@@ -42,9 +42,19 @@ namespace Budget.Controllers {
         public PartialViewResult _Transactions(int? bankAccountId) {
             var user = db.Users.Find(User.Identity.GetUserId());
             BankAccount bankAccounts = db.BankAccountData.Find(bankAccountId);
-            var transaction = bankAccounts.Transactions.Where(t => t.IsDeleted == false).ToList();           
+            Transaction transactions = new Transaction();
+            var isEdited = bankAccounts.Transactions.Where(e => e.DateEdited != null);
+            var transaction = bankAccounts.Transactions.Where(t => t.IsDeleted == false).ToList().OrderByDescending(o => o.DateCreated);
+            var transactionEdited = bankAccounts.Transactions.Where(t => t.IsDeleted == false).ToList().OrderByDescending(o => o.DateEdited);
 
-            return PartialView(transaction);
+            if(transactions.DateEdited != null) {
+                return PartialView(transactionEdited);
+            }
+            else {
+                return PartialView(transaction);
+            }
+
+            //return PartialView(transaction);
         }
 
 
@@ -56,7 +66,7 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
             
             vm.Categories = db.CategoryData.ToList();
-            vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
+            vm.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).OrderByDescending(o => o.DateCreated).ToList();
 
             return PartialView(vm);
         }
@@ -70,7 +80,7 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
 
             incomeExpense.Categories = db.CategoryData.ToList();
-            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
+            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).OrderByDescending(o => o.DateCreated).ToList();
 
             return PartialView(incomeExpense);
         }
@@ -83,7 +93,7 @@ namespace Budget.Controllers {
             var household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
 
             incomeExpense.Categories = db.CategoryData.ToList();
-            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).ToList();
+            incomeExpense.Transactions = household.BankAccounts.SelectMany(b => b.Transactions).Where(t => t.IsDeleted == false).OrderByDescending(o => o.DateCreated).ToList();
 
             return PartialView(incomeExpense);
         }
@@ -210,12 +220,41 @@ namespace Budget.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CategoryId,BankAccountId,UserId,IsWithdrawl,IsDeleted,DateCreated,DateEdited,TransactionAmount,ReconsiliationAmount,TransactionDescription")] Transaction transaction) {
+        //public ActionResult Edit([Bind(Include = "Id,CategoryId,BankAccountId,UserId,IsWithdrawl,IsDeleted,DateCreated,DateEdited,TransactionAmount,ReconsiliationAmount,TransactionDescription")] Transaction transaction) {
+        public ActionResult Edit(Transaction transaction) {
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
+            var bankAccount = db.BankAccountData.Single(b => b.Id == transaction.BankAccountId);
+
             if(ModelState.IsValid) {
-                db.Entry(transaction).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            transaction.DateEdited = System.DateTimeOffset.Now;
+            transaction.UserId = user.Id;
+
+            db.TransactionData.Attach(transaction);
+            db.Entry(transaction).Property("CategoryId").IsModified = true;
+            db.Entry(transaction).Property("BankAccountId").IsModified = true;
+            db.Entry(transaction).Property("TransactionAmount").IsModified = true;
+            db.Entry(transaction).Property("ReconsiliationAmount").IsModified = true;
+            db.Entry(transaction).Property("TransactionDescription").IsModified = true;
+
+                if(db.Entry(transaction).Property(t => t.TransactionAmount).IsModified == true) {
+                    if(transaction.TransactionAmount < 0 && transaction.IsWithdrawl == false) {
+                        transaction.IsWithdrawl = true;
+                        bankAccount.Balance = bankAccount.Balance + transaction.TransactionAmount;
+                        transaction.DateEdited = System.DateTimeOffset.Now;
+                    }
+                    else {
+                        transaction.IsWithdrawl = false;
+                        bankAccount.Balance = bankAccount.Balance + transaction.TransactionAmount;
+                        transaction.DateEdited = System.DateTimeOffset.Now;
+                    }
                 }
+
+            db.SaveChanges();
+            return RedirectToAction("Index", "Households");
+            }
+            
             ViewBag.BankAccountId = new SelectList(db.BankAccountData, "Id", "Name", transaction.BankAccountId);
             ViewBag.CategoryId = new SelectList(db.CategoryData, "Id", "Name", transaction.CategoryId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", transaction.UserId);
@@ -238,11 +277,11 @@ namespace Budget.Controllers {
         // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id) {
+        public ActionResult DeleteConfirmed(int? id) {
             Transaction transaction = db.TransactionData.Find(id);
             transaction.IsDeleted = true;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Households");
             }
 
         protected override void Dispose(bool disposing) {

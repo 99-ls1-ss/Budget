@@ -29,17 +29,22 @@ namespace Budget.Controllers {
         }
 
         // GET: BankAccounts/Details/5
-        public ActionResult Details(int? bankAccountId, int? householdId) {
-
-            BankAccount bankAccount = db.BankAccountData.Find(bankAccountId);
+        public ActionResult Details(int? bankAccountId) {
 
             var user = db.Users.Find(User.Identity.GetUserId());
-            
-            var myAccounts = db.BankAccountData.Find(bankAccountId);
+            var householdId = db.BankAccountData.Where(h => h.HouseHoldId == user.HouseHoldId);
+            BankAccount bankAccount = db.BankAccountData.Find(bankAccountId);
+            Transaction transactions = db.TransactionData.Find(bankAccountId);
+            var myAccounts = db.TransactionData.Where(a => a.BankAccountId == bankAccount.Id);
 
-            var accountBalance = db.TransactionData.Where(t => t.BankAccountId == myAccounts.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
-            
-            return View(myAccounts);
+            if(transactions.IsDeleted != false) {
+                var accountBalance = db.TransactionData.Where(t => t.BankAccountId == bankAccount.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
+            }
+            else {
+                var accountBalance = db.TransactionData.Where(t => t.BankAccountId == bankAccount.Id && t.IsDeleted == false).Select(a => a.TransactionAmount);
+            }
+
+            return View(bankAccount);
         }
 
         // GET: BankAccounts/Create
@@ -70,9 +75,17 @@ namespace Budget.Controllers {
             var user = db.Users.Find(User.Identity.GetUserId());
             var householdId = db.BankAccountData.Where(h => h.HouseHoldId == user.HouseHoldId);
             BankAccount bankAccount = db.BankAccountData.Find(id);
+            Transaction transactions = db.TransactionData.Find(id);
+            var myAccounts = db.TransactionData.Where(a => a.BankAccountId == bankAccount.Id);
 
-            var myAccounts = db.BankAccountData.Find(id);
-            var accountBalance = db.TransactionData.Where(t => t.BankAccountId == myAccounts.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
+            if(transactions.IsDeleted != false) {
+                var accountBalance = db.TransactionData.Where(t => t.BankAccountId == bankAccount.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
+            }
+            else {
+                var accountBalance = db.TransactionData.Where(t => t.BankAccountId == bankAccount.Id && t.IsDeleted == false).Select(a => a.TransactionAmount);
+            }
+
+            //var accountBalance = db.TransactionData.Where(t => t.BankAccountId == myAccounts.Id && t.IsDeleted == false).Select(a => a.TransactionAmount).Sum();
 
             ViewBag.HouseHoldId = new SelectList(db.HouseHoldData, "Id", "Name", bankAccount.HouseHoldId);
             return View(bankAccount);

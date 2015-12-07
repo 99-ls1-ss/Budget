@@ -74,14 +74,14 @@
                     @if(item.TransactionAmount < 0) {
                         <span class="font-red">
                             <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                                @Html.DisplayFor(modelItem => item.TransactionAmount)
+                                <span>$ </span>@Html.DisplayFor(modelItem => item.TransactionAmount)
                             </a>
                         </span>
                     }
                     else {
                         <span class="font-black">
                             <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                                @Html.DisplayFor(modelItem => item.TransactionAmount)
+                                <span>$ </span>@Html.DisplayFor(modelItem => item.TransactionAmount)
                             </a>
                         </span>
                     }

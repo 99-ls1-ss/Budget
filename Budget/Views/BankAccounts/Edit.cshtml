@@ -4,18 +4,17 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-<div>
+@*<h2>Edit</h2>*@
+@*<div>
     @Html.ActionLink("Back To Household", "Index", "Households")
-    @Html.ActionLink("Add Transaction", "Create", "Transactions")
-</div>
+</div>*@
 
 
-<input type="submit" value="Delete" class="btn btn-flat flat-color" />
+@*<input type="submit" value="Delete" class="btn btn-flat flat-color" />*@
 
 <div class="form-horizontal">
-    <h4>Bank Account</h4>
-    <hr />
+    @*<h4>Bank Account</h4>
+    <hr />*@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
     @Html.HiddenFor(model => model.HouseHoldId)
@@ -27,19 +26,19 @@
             <label class="control-label col-md-2">Current Balance:</label>
             <div class="control-padding col-md-2">
                 <span>$</span>
-                @if(Model.Balance < 0) {
-                    <span class="font-red">@Model.Balance</span>
-                }
-                else {
+                @if(Model.Balance >= 0) {
                     <span>@Model.Balance</span>
                 }
+                else {
+                    <span class="font-red">@Model.Balance</span>
+                }
             </div>
-            <div class="control-padding col-md-4 text-center">@Html.ActionLink("New Transaction", "Create", "Transactions", new { @class = "text-center" })</div>
+            <div class="control-padding col-md-4 text-center"><a href="@Url.Action("Create", "Transactions", new { bankAccountId = Model.Id })">New Transaction</a></div>
         </div>
     </div>
 </div>
 
-<hr />
+@*<hr />*@
 
 <div>
     @Html.HiddenFor(m => m.Id)
