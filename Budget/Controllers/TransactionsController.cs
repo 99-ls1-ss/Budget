@@ -93,7 +93,6 @@ namespace Budget.Controllers {
         public ActionResult Create() {
             HouseHold households = new HouseHold();
             var user = db.Users.Find(User.Identity.GetUserId());
-            //var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
@@ -143,7 +142,6 @@ namespace Budget.Controllers {
             var bankAccount = db.BankAccountData.Single(b => b.Id == transaction.BankAccountId);
 
             if(ModelState.IsValid) {
-
                 transaction.IsWithdrawl = true;
                 transaction.TransactionAmount = transaction.TransactionAmount * -1;
                 transaction.UserId = user.Id;
@@ -183,7 +181,7 @@ namespace Budget.Controllers {
 
                 db.TransactionData.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Households");
             }
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData, "Id", "Name", transaction.BankAccountId);
@@ -242,7 +240,6 @@ namespace Budget.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
             Transaction transaction = db.TransactionData.Find(id);
-            //db.TransactionData.Remove(transaction);
             transaction.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
