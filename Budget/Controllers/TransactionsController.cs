@@ -150,8 +150,8 @@ namespace Budget.Controllers {
                 bankAccount.Balance = bankAccount.Balance + transaction.TransactionAmount;
 
                 db.TransactionData.Add(transaction);
-                db.SaveChanges();   
-                return RedirectToAction("Index");
+                db.SaveChanges();
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData, "Id", "Name", transaction.BankAccountId);
