@@ -4,21 +4,29 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Add Transaction</h2>
-@Html.HiddenFor(b => b.BankAccountId)
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        @Html.Action("_Withdrawl","Transactions")
-    </div>
-    <div class="col-md-6 col-xs-12">
-        @Html.Action("_Deposit", "Transactions")
-    </div>
-</div>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+            <h2>Add Transaction</h2>
+            @*@Html.HiddenFor(b => b.BankAccount.Id)*@
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    @Html.Action("_Withdrawl", "Transactions")
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    @Html.Action("_Deposit", "Transactions")
+                </div>
+            </div>
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+        </div>
+    </div>
+</section>

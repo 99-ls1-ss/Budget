@@ -5,98 +5,111 @@
     ViewBag.Title = "Dashboard";
 }
 
-<h2>Dashboard</h2>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
-@Html.HiddenFor(m => m.Id)
-@Html.HiddenFor(t => t.BankAccounts)
-<link href="~/Content/themes/base/accordion.css" rel="stylesheet" />
-<link href="~/Content/themes/base/core.css" rel="stylesheet" />
-<link href="~/Content/DataTables-1.10.10/media/css/jquery.dataTables.min.css" rel="stylesheet" />
-<div class="">
-    @Html.Action("_BankAccounts", "HouseHolds", new { id = Model.Id })
-</div>
-<hr />
-<div id="accordion">
-    <div>
-        <h3><a href="#">Withdrawl Transactions</a></h3>
-        <div class="dashboardPanel">
-            @Html.Action("_WithdrawlTransactions", "Transactions", new { categoryId = Model.Id })
+            <h2>Dashboard</h2>
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(t => t.BankAccounts)
+            <link href="~/Content/themes/base/accordion.css" rel="stylesheet" />
+            <link href="~/Content/themes/base/core.css" rel="stylesheet" />
+            <link href="~/Content/DataTables-1.10.10/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Action("_BankAccounts", "HouseHolds", new { id = Model.Id })
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+            <hr />
+            <div id="accordion">
+                <div>
+                    <h3><a href="#">Withdrawl Transactions</a></h3>
+                    <div class="dashboardPanel">
+                        @Html.Action("_WithdrawlTransactions", "Transactions", new { categoryId = Model.Id })
+                    </div>
+                </div>
+                <div>
+                    <h3><a href="#">Income Transactions</a></h3>
+                    <div class="dashboardPanel">
+                        @Html.Action("_IncomeTransactions", "Transactions", new { categoryId = Model.Id })
+                    </div>
+                </div>
+                <div>
+                    <h3><a href="#">Transactions by Categories</a></h3>
+                    <div class="dashboardPanel">
+                        @Html.Action("_CatTransactions", "Transactions", new { categoryId = Model.Id })
+                    </div>
+                </div>
+            </div>
+
+
+            @section scripts{
+                <script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
+                <script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/responsive.jqueryui.min.js"></script>
+                <script>
+                    $(function () {
+                        $("#accordion > div").accordion({
+                            header: "h3",
+                            active: false,
+                            collapsible: true
+                        });
+                    });
+
+
+                    $(document).ready(function () {
+                        $('#transactionTable').DataTable({
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                        $('#transactionTable1').DataTable({
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                        $('.transactionTable2').DataTable({
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                        $('#transactionTable3').DataTable({
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                    });
+
+                </script>
+            }
+
         </div>
     </div>
-    <div>
-        <h3><a href="#">Income Transactions</a></h3>
-        <div class="dashboardPanel">
-            @Html.Action("_IncomeTransactions", "Transactions", new { categoryId = Model.Id })
-        </div>
-    </div>
-    <div>
-        <h3><a href="#">Transactions by Categories</a></h3>
-        <div class="dashboardPanel">
-            @Html.Action("_CatTransactions", "Transactions", new { categoryId = Model.Id })
-        </div>
-    </div>
-</div>
-
-
-@section scripts{
-<script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/responsive.jqueryui.min.js"></script>
-<script>
-    $(function () {
-        $("#accordion > div").accordion({
-            header: "h3",
-            active: false,
-            collapsible: true
-        });
-    });
-
-
-    $(document).ready(function () {
-        $('#transactionTable').DataTable({
-            "columnDefs": [
-        {
-            "targets": [0],
-            "sType": "date",
-            "visible": false,
-            "searchable": false,
-            "order": [0, "desc"]
-        }
-            ]
-        });
-        $('#transactionTable1').DataTable({
-            "columnDefs": [
-        {
-            "targets": [0],
-            "sType": "date",
-            "visible": false,
-            "searchable": false,
-            "order": [0, "desc"]
-        }
-            ]
-        });
-        $('#transactionTable2').DataTable({
-            "columnDefs": [
-        {
-            "targets": [0],
-            "sType": "date",
-            "visible": false,
-            "searchable": false,
-            "order": [0, "desc"]
-        }
-            ]
-        });
-        $('#transactionTable3').DataTable({
-            "columnDefs": [
-        {
-            "targets": [0],
-            "sType": "date",
-            "visible": false,
-            "searchable": false,
-            "order": [0, "desc"]
-        }
-            ]
-        });
-    });
-
-</script>
-}
+</section>

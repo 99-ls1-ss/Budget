@@ -5,30 +5,38 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
 
-    <tr>
-        <td>
-            @Html.DisplayFor(model => model.Name)
-            
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=Model.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=Model.Id })
-        </td>
-    </tr>
+            <h2>Index</h2>
 
-</table>
+            <p>
+                @Html.ActionLink("Create New", "Create")
+
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Name)
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</section>

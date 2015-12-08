@@ -100,12 +100,14 @@ namespace Budget.Controllers {
 
 
         // GET: Transactions/Create
-        public ActionResult Create() {
+        public ActionResult Create(int? bankAccountId) {
             HouseHold households = new HouseHold();
             var user = db.Users.Find(User.Identity.GetUserId());
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
+            BankAccount accounts = db.BankAccountData.Single(b => b.Id == bankAccountId);
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
+            ViewBag.BankAccount = db.BankAccountData.Single(ba => ba.Id == bankAccountId);
             ViewBag.CategoryId = new SelectList(db.CategoryData, "Id", "Name", "IsDeposit");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
 
@@ -113,34 +115,40 @@ namespace Budget.Controllers {
             }
 
         // GET: Transactions/_Withdrawl
-        public PartialViewResult _Withdrawl() {
+        public PartialViewResult _Withdrawl(int? bankAccountId) {
             HouseHold households = new HouseHold();
+            BankAccount accounts = db.BankAccountData.Single(b => b.Id == bankAccountId);
+
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
 
-            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
+            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.Id == bankAccountId), "Id", "Name");
+            ViewBag.BankAccount = db.BankAccountData.Single(ba => ba.Id == bankAccountId);
             ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == false), "Id", "Name", "IsDeposit");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
 
             return PartialView();
         }
 
-        // GET: Transactions/_Withdrawl
-        public PartialViewResult _Deposit() {
+        // GET: Transactions/_Deposit
+        public PartialViewResult _Deposit(int? bankAccountId) {
             HouseHold households = new HouseHold();
+            BankAccount accounts = db.BankAccountData.Single(b => b.Id == bankAccountId);
+
             var user = db.Users.Find(User.Identity.GetUserId());
             var household = db.HouseHoldData.Where(u => u.Id == user.HouseHoldId);
             var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
 
-            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
+            ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.Id == bankAccountId), "Id", "Name");
+            ViewBag.BankAccount = db.BankAccountData.Single(ba => ba.Id == bankAccountId);
             ViewBag.CategoryId = new SelectList(db.CategoryData.Where(c => c.IsDeposit == true), "Id", "Name", "IsDeposit");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
 
             return PartialView();
         }
 
-        // POST: Transactions/Create
+        // POST: Transactions/Withdrawl
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -170,7 +178,7 @@ namespace Budget.Controllers {
             return View(transaction);
             }
 
-        // POST: Transactions/Create
+        // POST: Transactions/Deposit
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -200,12 +208,13 @@ namespace Budget.Controllers {
             return View(transaction);
         }
 
-        // GET: Transactions/Edit/5
+        // GET: Transactions/Edit
         public ActionResult Edit(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             Transaction transaction = db.TransactionData.Find(id);
+            var bankAccount = db.BankAccountData.Single(b => b.Id == transaction.BankAccountId);
             if(transaction == null) {
                 return HttpNotFound();
                 }
@@ -215,7 +224,7 @@ namespace Budget.Controllers {
             return View(transaction);
             }
 
-        // POST: Transactions/Edit/5
+        // POST: Transactions/Edit
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -261,7 +270,7 @@ namespace Budget.Controllers {
             return View(transaction);
             }
 
-        // GET: Transactions/Delete/5
+        // GET: Transactions/Delete
         public ActionResult Delete(int? id) {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -274,7 +283,7 @@ namespace Budget.Controllers {
             return View(transaction);
             }
 
-        // POST: Transactions/Delete/5
+        // POST: Transactions/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int? id) {

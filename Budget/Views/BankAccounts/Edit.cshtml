@@ -4,65 +4,65 @@
     ViewBag.Title = "Edit";
 }
 
-@*<h2>Edit</h2>*@
-@*<div>
-    @Html.ActionLink("Back To Household", "Index", "Households")
-</div>*@
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
 
-@*<input type="submit" value="Delete" class="btn btn-flat flat-color" />*@
+            <div class="form-horizontal">
+                @*<h4>Bank Account</h4>
+                    <hr />*@
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.HouseHoldId)
 
-<div class="form-horizontal">
-    @*<h4>Bank Account</h4>
-    <hr />*@
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.HouseHoldId)
-
-    <div class="row">
-        <div class="form-group">
-            <label class="control-label col-md-2">Account Name:</label>
-            <div class="control-padding col-md-2">@Model.Name</div>
-            <label class="control-label col-md-2">Current Balance:</label>
-            <div class="control-padding col-md-2">
-                <span>$</span>
-                @if(Model.Balance >= 0) {
-                    <span>@Model.Balance</span>
-                }
-                else {
-                    <span class="font-red">@Model.Balance</span>
-                }
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Account Name:</label>
+                        <div class="control-padding col-md-2">@Model.Name</div>
+                        <label class="control-label col-md-2">Current Balance:</label>
+                        <div class="control-padding col-md-2">
+                            <span>$</span>
+                            @if(Model.Balance >= 0) {
+                                <span>@Model.Balance</span>
+                            }
+                            else {
+                                <span class="font-red">@Model.Balance</span>
+                            }
+                        </div>
+                        <div class="control-padding col-md-4 text-center"><a href="@Url.Action("Create", "Transactions", new { bankAccountId = Model.Id })">New Transaction</a></div>
+                    </div>
+                </div>
             </div>
-            <div class="control-padding col-md-4 text-center"><a href="@Url.Action("Create", "Transactions", new { bankAccountId = Model.Id })">New Transaction</a></div>
+
+            @*<hr />*@
+
+            <div>
+                @Html.HiddenFor(m => m.Id)
+                @Html.Action("_Transactions", "Transactions", new { bankAccountId = Model.Id })
+            </div>
+
+            @section scripts{
+                <script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
+                <script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#transactionTable2').DataTable({
+                            //"order": [[0, "desc"]],
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                    });
+                </script>
+            }
+
         </div>
     </div>
-</div>
-
-@*<hr />*@
-
-<div>
-    @Html.HiddenFor(m => m.Id)
-    @Html.Action("_Transactions", "Transactions", new { bankAccountId = Model.Id })
-</div>
-
-@section scripts{
-    <script src="~/Scripts/DataTables-1.10.10/media/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/DataTables-1.10.10/extensions/Responsive/js/dataTables.responsive.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#transactionTable2').DataTable({
-                //"order": [[0, "desc"]],
-                "columnDefs": [
-            {
-                "targets": [0],
-                "sType": "date",
-                "visible": false,
-                "searchable": false,
-                "order": [0, "desc"]
-            }
-                ]
-            });
-        });
-    </script>
-}
-
+</section>

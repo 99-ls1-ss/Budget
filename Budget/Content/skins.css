@@ -1,0 +1,124 @@
+/* Color Skin 3
+ * -------------------------- */
+.color-skin-3 a:not(.btn):hover,
+.color-skin-3 a:not(.btn):focus, 
+.color-skin-3 #header-1 a:hover, 
+.color-skin-3 .navbar-brand span, 
+.color-skin-3 .panel-group .panel .panel-title > a:hover, 
+.color-skin-3 .panel-group .panel .panel-title > a:focus, 
+.color-skin-3 .nav-tabs > li.active > a, 
+.color-skin-3 .nav-tabs > li.active > a:hover, 
+.color-skin-3 .nav-tabs > li.active > a:focus, 
+.color-skin-3 #footer-1 a:hover, 
+.color-skin-3 #footer-2 a:hover, 
+.color-skin-3 .footer-brand span, 
+.color-skin-3 .member-social > li a:hover, 
+.color-skin-3 .pagination > li > a:hover, 
+.color-skin-3 .pagination > li > span:hover, 
+.color-skin-3 .pagination > li > a:focus, 
+.color-skin-3 .pagination > li > span:focus, 
+.color-skin-3 .product-info .price, 
+.color-skin-3 .cart-items h5 .price,
+.color-skin-3 .popular-items h5 .price,
+.color-skin-3 .flat-color:hover,
+.color-skin-3 .flat-color.btn-bordered {
+    /*color: #34495E;*/
+    color:#66798C;
+}
+
+.color-skin-3 .flat-color:hover,
+.color-skin-3 .flat-color.btn-bordered {
+    background-color: transparent;
+}
+
+.color-skin-3 .navbar-default .navbar-toggle:hover, 
+.color-skin-3 .navbar-default .navbar-toggle:focus,  
+.color-skin-3 .accordion-toggle:before, 
+.color-skin-3 .accordion-toggle.collapsed:before, 
+.color-skin-3 .testimonial-content, 
+.color-skin-3 .subpage-title:before, 
+.color-skin-3 #toTopHover, 
+.color-skin-3 .service .service-icon, 
+.color-skin-3 .service:hover, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a:hover, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a:focus, 
+.color-skin-3 .pricing .price, 
+.color-skin-3 .error404, 
+.color-skin-3 .the-icons a:hover, 
+.color-skin-3 .team-member-info, 
+.color-skin-3 .pagination > .active > a, 
+.color-skin-3 .pagination > .active > span, 
+.color-skin-3 .pagination > .active > a:hover, 
+.color-skin-3 .pagination > .active > span:hover, 
+.color-skin-3 .pagination > .active > a:focus, 
+.color-skin-3 .pagination > .active > span:focus, 
+.color-skin-3 .results:before,
+.color-skin-3 .flat-color,
+.color-skin-3 .flat-color.btn-bordered:hover,
+.color-skin-3 .portfolio-item .portfolio-thumb .image-overlay,
+.color-skin-3 .team-member-thumb .overlay {
+    background-color: #34495E;
+}
+
+.color-skin-3 .navbar-default .navbar-toggle:hover, 
+.color-skin-3 .navbar-default .navbar-toggle:focus, 
+.color-skin-3 .subpage-title .prev:hover, 
+.color-skin-3 .subpage-title .next:hover, 
+.color-skin-3 .subpage-title .prev.black:hover, 
+.color-skin-3 .subpage-title .next.black:hover, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a:hover, 
+.color-skin-3 .portfolio-filter.nav-pills > li.active > a:focus, 
+.color-skin-3 .form-control:focus, 
+.color-skin-3 .pagination > .active > a, 
+.color-skin-3 .pagination > .active > span, 
+.color-skin-3 .pagination > .active > a:hover, 
+.color-skin-3 .pagination > .active > span:hover, 
+.color-skin-3 .pagination > .active > a:focus, 
+.color-skin-3 .pagination > .active > span:focus,
+.color-skin-3 .flat-color,
+.color-skin-3 .flat-color:hover,
+.color-skin-3 .flat-color:active {
+    border-color: #34495E;
+}
+
+.color-skin-3 .nav-tabs > li.active > a, 
+.color-skin-3 .nav-tabs > li.active > a:hover, 
+.color-skin-3 .nav-tabs > li.active > a:focus, 
+.color-skin-3 .testimonial-content:before {
+    border-top-color: #34495E;
+}
+
+@media (min-width: 768px) {
+    .color-skin-3 .navbar-default .navbar-nav > li > a:hover, 
+    .color-skin-3 .navbar-default .navbar-nav > li > a:focus, 
+    .color-skin-3 .navbar-default .navbar-nav > .open > a, 
+    .color-skin-3 .navbar-default .navbar-nav > .open > a:hover, 
+    .color-skin-3 .navbar-default .navbar-nav > .open > a:focus, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a:hover, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a:focus {
+        color: #34495E;
+    }
+
+    .color-skin-3 .dropdown-menu > .active > a, 
+    .color-skin-3 .dropdown-menu > .active > a:hover, 
+    .color-skin-3 .dropdown-menu > .active > a:focus, 
+    .color-skin-3 .dropdown-menu > li > a:hover, 
+    .color-skin-3 .dropdown-menu > li > a:focus {
+        background-color: #34495E;
+    }
+
+    .color-skin-3 .navbar-default .navbar-nav > .active > a, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a:hover, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a:focus, 
+    .color-skin-3 .navbar-default .navbar-nav > .active > a:after {
+        border-bottom-color: #34495E;
+    }
+
+    .color-skin-3 .navbar-nav > li > .dropdown-menu {
+        border-top-color: #34495E;
+    }
+}
+}

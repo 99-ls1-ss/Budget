@@ -5,107 +5,116 @@
     string deposit = "";
 }
 
-<h2>@ViewBag.Title</h2>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+            <h2>@ViewBag.Title</h2>
+
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
 
 
-<table class="table" id="transactionTable">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.BankAccount.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateEdited)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.DisplayName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionDescription)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model) {
-            if(item.IsWithdrawl != true) {
-                deposit = "deposit";
+            <table class="table" id="transactionTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BankAccount.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DateCreated)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DateEdited)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.User.DisplayName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionAmount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionDescription)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model) {
+                        if(item.IsWithdrawl != true) {
+                            deposit = "deposit";
+                        }
+                        else {
+                            deposit = "";
+                        }
+                        <tr class="@deposit">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateCreated)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.BankAccount.Name)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.DateCreated)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.DateEdited)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </a>
+                            </td>
+                            <td class="text-right">
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.TransactionAmount)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.TransactionDescription)
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+
+            @section scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('#transactionTable').DataTable({
+                            //"order": [[0, "desc"]],
+                            "columnDefs": [
+                        {
+                            "targets": [0],
+                            "sType": "date",
+                            "visible": false,
+                            "searchable": false,
+                            "order": [0, "desc"]
+                        }
+                            ]
+                        });
+                    });
+                </script>
             }
-            else {
-                deposit = "";
-            }
-            <tr class="@deposit">
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.BankAccount.Name)
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.Category.Name)
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.DateCreated)
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.DateEdited)
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.User.DisplayName)
-                    </a>
-                </td>
-                <td class="text-right">
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.TransactionAmount)
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Transactions", new { id = item.Id })">
-                        @Html.DisplayFor(modelItem => item.TransactionDescription)
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-
-</table>
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $('#transactionTable').DataTable({
-                //"order": [[0, "desc"]],
-                "columnDefs": [
-            {
-                "targets": [0],
-                "sType": "date",
-                "visible": false,
-                "searchable": false,
-                "order": [0, "desc"]
-            }
-                ]
-            });
-        });
-    </script>
-}
+        </div>
+    </div>
+</section>

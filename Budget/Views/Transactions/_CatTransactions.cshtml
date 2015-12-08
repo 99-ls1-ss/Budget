@@ -5,9 +5,10 @@
 }
 
 @foreach(var category in Model.Categories) {
+    <br /><br />
     <h4>@category.Name</h4>
 
-    <table class="table" id="transactionTable2">
+    <table class="table transactionTable2" id="transactionTable2">
         <thead>
             <tr>
                 <th></th>
@@ -33,7 +34,7 @@
                     @Html.DisplayNameFor(model => model.Transaction.TransactionDescription)
                 </th>
             </tr>
-        </thead>       
+        </thead>
 
         <tbody>
             @foreach(var transaction in Model.Transactions.Where(t => t.CategoryId == category.Id)) {
