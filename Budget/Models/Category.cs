@@ -15,6 +15,7 @@ namespace Budget.Models {
         [Display(Name = "Category Name")]
         public string Name { get; set; }
         public bool IsDeposit { get; set; }
+        int? HouseholdId { get; set; }
 
         public virtual ICollection<Transaction> Transactions {get; set;}
 

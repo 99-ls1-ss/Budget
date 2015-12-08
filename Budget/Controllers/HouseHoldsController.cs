@@ -10,6 +10,7 @@ using Budget.Models;
 using Budget.Helpers;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace Budget.Controllers {
     [Authorize]
@@ -61,7 +62,6 @@ namespace Budget.Controllers {
             HouseHold household = db.HouseHoldData.Find(id);
             return PartialView(household);
         }
-
 
         // GET Dashboard: HouseHolds/Dashboard
         public ActionResult Dashboard() { 
@@ -127,6 +127,41 @@ namespace Budget.Controllers {
             db.SaveChanges();
             await ControllerContext.HttpContext.RefreshAuthentication(user);
             return RedirectToAction("Create");
+        }
+
+        public ActionResult GetChart() {
+            ApplicationDbContext db = new ApplicationDbContext();
+            Transaction transaction = new Transaction();
+            HouseHold hh = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+            var withdrawlChartArray = (from c in hh.Categories
+                              where  c.IsDeposit == false
+                              let sum = (from b in hh.BudgetItems
+                                         where b.CategoryId == c.Id
+                                         select b.Amount).DefaultIfEmpty().Sum()
+                              select new {
+                                  label = c.Name,
+                                  data = sum
+
+                              }).ToArray();
+
+            var depositChartArray = (from c in hh.Categories
+                              where c.IsDeposit == true
+                              let sum = (from b in hh.BudgetItems
+                                         where b.CategoryId == c.Id
+                                         select b.Amount).DefaultIfEmpty().Sum()
+                              select new {
+                                  label = c.Name,
+                                  data = sum
+
+                              }).ToArray();
+
+            var jsonData = new {
+                Expense = withdrawlChartArray,
+                Income = depositChartArray
+            };
+
+            return Content(JsonConvert.SerializeObject(jsonData), "application/json");
+
         }
 
 

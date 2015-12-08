@@ -332,7 +332,7 @@ input.btn{
     border-radius: 0 0 2px 2px;
 }
 
-#pieHover {
+#pieHoverExpense, #pieHoverIncome {
     height:14px;
 }
 

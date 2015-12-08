@@ -10,6 +10,7 @@ namespace Budget.Models {
         public HouseHold() {
             this.Users = new HashSet<ApplicationUser>();
             this.BankAccounts = new HashSet<BankAccount>();
+            this.Categories = new HashSet<Category>();
             this.BudgetItems = new HashSet<BudgetItems>();
         }
 
@@ -20,6 +21,7 @@ namespace Budget.Models {
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<BudgetItems> BudgetItems { get; set; }
 
     }
