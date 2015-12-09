@@ -53,3 +53,4 @@
 /// <reference path="flot/jquery.flot.canvas.min.js" />
 /// <reference path="flot/jquery.colorhelpers.min.js" />
 /// <reference path="flot/excanvas.min.js" />
+/// <reference path="morris.js" />

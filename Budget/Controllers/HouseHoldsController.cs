@@ -132,10 +132,10 @@ namespace Budget.Controllers {
         public ActionResult GetChart() {
             ApplicationDbContext db = new ApplicationDbContext();
             Transaction transaction = new Transaction();
-            HouseHold hh = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
-            var withdrawlChartArray = (from c in hh.Categories
+            HouseHold household = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+            var withdrawlChartArray = (from c in household.Categories
                               where  c.IsDeposit == false
-                              let sum = (from b in hh.BudgetItems
+                              let sum = (from b in household.BudgetItems
                                          where b.CategoryId == c.Id
                                          select b.Amount).DefaultIfEmpty().Sum()
                               select new {
@@ -144,9 +144,9 @@ namespace Budget.Controllers {
 
                               }).ToArray();
 
-            var depositChartArray = (from c in hh.Categories
+            var depositChartArray = (from c in household.Categories
                               where c.IsDeposit == true
-                              let sum = (from b in hh.BudgetItems
+                              let sum = (from b in household.BudgetItems
                                          where b.CategoryId == c.Id
                                          select b.Amount).DefaultIfEmpty().Sum()
                               select new {
@@ -162,6 +162,30 @@ namespace Budget.Controllers {
 
             return Content(JsonConvert.SerializeObject(jsonData), "application/json");
 
+        }
+
+        public ActionResult GetMonthly() {
+            var hh = db.HouseHoldData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+            var budgetName = db.BudgetData.Find(Convert.ToInt32(User.Identity.GetHouseholdid()));
+            var monthToDate = Enumerable.Range(1, DateTime.Today.Month)
+                .Select(m => new DateTime(DateTime.Today.Year, m, 1))
+                .ToList();
+
+            var sums  = (from month in monthToDate
+                        select new {
+                            month = month.ToString("MMM"),
+                            actualExpense = (from account in hh.BankAccounts
+                                             from transaction in account.Transactions
+                                             where transaction.DateCreated.Month == month.Month
+                                             select (transaction.TransactionAmount)).DefaultIfEmpty().Sum(),
+                            
+                            budgetExpense = (from budget in hh.BudgetItems
+                                             where budget.Category.IsDeposit == true
+                                             select (budget.Amount)).DefaultIfEmpty().Sum()
+                            
+                        }).ToArray();
+
+            return Content(JsonConvert.SerializeObject(sums), "application/json");
         }
 
 
