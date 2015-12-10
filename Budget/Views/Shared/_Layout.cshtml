@@ -29,14 +29,14 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="@Url.Action("Index","Home")">Payne<span>Solutions</span></a>
+                        <a class="navbar-brand" href="@Url.Action("Index", "HouseHolds")">Payne<span>Solutions</span></a>
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("My Household", "Index", "HouseHolds")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                            <li>@Html.ActionLink("Home", "Index", "HouseHolds")</li>
                             <li>@Html.ActionLink("Dashboard", "Dashboard", "HouseHolds")</li>
                         </ul>
                         @*@Html.Partial("_LoginPartial")*@
