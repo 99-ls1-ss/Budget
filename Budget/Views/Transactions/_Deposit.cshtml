@@ -8,15 +8,15 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-3">Bank Account</label>
-            <div class="col-md-9">                
+            <label class="control-label col-md-4">Bank Account</label>
+            <div class="col-md-8">                
                 @Html.DropDownList("BankAccountId", null, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">Deposit Type</label>
-            <div class="col-md-9">
+            <label class="control-label col-md-4">Deposit Type</label>
+            <div class="col-md-8">
                 @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
@@ -24,23 +24,23 @@
 
 
         <div class="form-group">
-            <label class="control-label col-md-3">Deposit Amount</label>
-            <div class="col-md-9">
+            <label class="control-label col-md-4">Deposit Amount</label>
+            <div class="col-md-8">
                 @Html.EditorFor(model => model.TransactionAmount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TransactionAmount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TransactionDescription, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
+            @Html.LabelFor(model => model.TransactionDescription, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
                 @Html.EditorFor(model => model.TransactionDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TransactionDescription, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-4 col-md-8">
                 <input type="submit" value="Deposit" class="btn btn-flat flat-color" />
             </div>
         </div>

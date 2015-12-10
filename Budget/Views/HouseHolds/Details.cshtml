@@ -14,21 +14,18 @@
             @Html.AntiForgeryToken()
 
             <div>
-                <h4>House Hold</h4>
-                <hr />
-
                 <div class="row">
                     <div class="col-md-4">
                         <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-useremail="" data-sentcode="" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household</a>
                     </div>
-                    <form action="@Url.Action("LeaveHousehold", "HouseHolds")" method="post" name="LeaveHousehold">
-                        @Html.HiddenFor(m => Model.Id)
-                        <div class="col-md-4">
+                    <div class="col-md-4 text-center">
+                        <form action="@Url.Action("LeaveHousehold", "HouseHolds")" method="post" name="LeaveHousehold">
+                            @Html.HiddenFor(m => Model.Id)
                             <a href="#" onclick="form.submit();">Leave Household</a>
-                        </div>
-                    </form>
-                    <div class="col-md-4">
-                        @Html.ActionLink("Add Bank Account", "Create", "BankAccounts")
+                        </form>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <a href="@Url.Action("Create", "BankAccounts")">Add Bank Account</a>                        
                     </div>
                 </div>
                 <hr />

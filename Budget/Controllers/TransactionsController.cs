@@ -103,8 +103,9 @@ namespace Budget.Controllers {
         public ActionResult Create(int? bankAccountId) {
             HouseHold households = new HouseHold();
             var user = db.Users.Find(User.Identity.GetUserId());
-            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);
-            BankAccount accounts = db.BankAccountData.Single(b => b.Id == bankAccountId);
+            BankAccount accounts = db.BankAccountData.Single(b => b.Id == bankAccountId);            
+            var bankAccounts = db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId);  
+            var thisAccount = db.BankAccountData.Where(h => h.Id == bankAccountId);
 
             ViewBag.BankAccountId = new SelectList(db.BankAccountData.Where(b => b.HouseHoldId == user.HouseHoldId), "Id", "Name");
             ViewBag.BankAccount = db.BankAccountData.Single(ba => ba.Id == bankAccountId);
