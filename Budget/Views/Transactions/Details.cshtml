@@ -7,15 +7,14 @@
 <section class="section colored-wrapper">
     <div class="container">
         <div class="wrapper-2">
-
-
-            <h2>Details</h2>
-            @Html.ActionLink("Back to Transactions", "Index")
+            <div class="row">
+                <div class="col-md-offset-8 col-md-4">
+                    <a href="@Url.Action("Details", "BankAccounts", new { bankAccountId = Model.BankAccountId})">Back to Transactions</a>
+                </div>
+            </div>
             <div>
-                <h4>Transaction</h4>
                 <hr />
                 <div>
-
                     <form method="post" action="@Url.Action("Edit","Transactions")" name="Edit">
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.Id)

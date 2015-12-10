@@ -525,3 +525,15 @@ textarea.form-control.comments {
 form.carfinderForm {
     margin-bottom:14px;
 }
+
+.budget-landing {
+    background-image: url('images/Budget-image.png');
+    background-size:100%;
+    background-repeat:no-repeat;
+    border-radius: 10px;
+    min-height:300px;
+}
+
+label {
+    color:#424242;
+}

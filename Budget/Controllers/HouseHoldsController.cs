@@ -121,7 +121,7 @@ namespace Budget.Controllers {
 
         [HttpPost]
         [AuthorizeHouseholdRequired]
-        public async Task<ActionResult> LeaveHousehold() {
+        public async Task<ActionResult> LeaveHousehold(int? id) {
             var user = db.Users.Find(User.Identity.GetUserId());
             user.HouseHoldId = null;
             db.SaveChanges();

@@ -310,6 +310,8 @@
     <Content Include="Content\DataTables-1.10.10\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.10.10\media\images\sort_desc_disabled.png" />
     <Content Include="Content\essentials.css" />
+    <Content Include="Content\images\Budget-image.jpg" />
+    <Content Include="Content\images\Budget-image.png" />
     <Content Include="Content\myStyles.css" />
     <Content Include="Content\skins.css" />
     <Content Include="Content\stylesheet.css" />

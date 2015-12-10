@@ -10,34 +10,31 @@
 
 
             <link href="~/Content/DataTables-1.10.10/media/css/jquery.dataTables.min.css" rel="stylesheet" />
-            
-            @Html.HiddenFor(m => m.Id)
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <h3>@Model.Name</h3>
-                </div>
-                <div class="col-md-4 col-md-pull-2 col-sm-4 col-sm-pull-2 col-xs-12 balance">
-                    @if(Model.Balance >= 0) {
-                        <h3><span class="">@Model.Balance</span></h3>
-                    }
-                    else {
-                        <h3><span class="font-red">@Model.Balance</span></h3>
-                    }
 
-                </div>
-                <div class="col-md-4 text-right">
-                    <a href="@Url.Action("Create", "Transactions", new { bankAccountId = Model.Id})">Create Transaction</a>                    
+            <div class="form-horizontal">
+                @Html.HiddenFor(m => m.Id)
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Account Name:</label>
+                        <div class="control-padding col-md-2">@Model.Name</div>
+                        <label class="control-label col-md-2">Current Balance:</label>
+                        <div class="control-padding col-md-2">
+                            <span>$</span>
+                            @if(Model.Balance >= 0) {
+                                <span>@Model.Balance</span>
+                            }
+                            else {
+                                <span class="font-red">@Model.Balance</span>
+                            }
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <a href="@Url.Action("Create", "Transactions", new { bankAccountId = Model.Id})">Create Transaction</a> | 
+                            <a href="@Url.Action("Details", "HouseHolds", new { id = Model.HouseHoldId})">Back to Household</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-
-            @*<p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>*@
-
-            
 
             <div>
                 @Html.Action("_Transactions", "Transactions", new { bankAccountId = Model.Id })
@@ -49,7 +46,6 @@
                 <script>
                     $(document).ready(function () {
                         $('#transactionTable2').DataTable({
-                            //"order": [[0, "desc"]],
                             "columnDefs": [
                         {
                             "targets": [0],

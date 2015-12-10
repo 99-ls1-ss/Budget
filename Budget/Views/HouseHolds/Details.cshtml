@@ -19,9 +19,8 @@
                         <a href="#sendInvitation" class="jsInvitation" data-householdid="@Model.Id" data-useremail="" data-sentcode="" data-toggle="modal" data-target="#sendInvitation">Invite Someone to this Household</a>
                     </div>
                     <div class="col-md-4 text-center">
-                        <form action="@Url.Action("LeaveHousehold", "HouseHolds")" method="post" name="LeaveHousehold">
-                            @Html.HiddenFor(m => Model.Id)
-                            <a href="#" onclick="form.submit();">Leave Household</a>
+                        <form action="@Url.Action("LeaveHousehold", "HouseHolds", new { id = Model.Id })" method="post" name="leaveHousehold">
+                            <a href="JAVASCRIPT:leaveHousehold.submit()">Leave Household</a>
                         </form>
                     </div>
                     <div class="col-md-4 text-right">
@@ -66,7 +65,7 @@
                                 <span class="font-red"><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
                             }
                             else {
-                                <span class=""><a href="@Url.Action("Edit", "BankAccounts", new { id = accounts.Id })">@accounts.Balance</a></span>
+                                <span class=""><a href="@Url.Action("Details", "BankAccounts", new { bankAccountId = accounts.Id })">@accounts.Balance</a></span>
                             }
 
                         </div>
