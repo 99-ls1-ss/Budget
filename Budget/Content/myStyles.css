@@ -537,3 +537,18 @@ form.carfinderForm {
 label {
     color:#424242;
 }
+
+.table td.text-right a {
+    margin-right:12%;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 1em 0 !important;
+}
+
+.categoryTables {
+    margin-top:20px;
+}
+.categoryTables h4 {
+    padding-left:10px;
+    margin-bottom:8px;
+}
