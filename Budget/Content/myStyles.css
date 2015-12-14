@@ -534,6 +534,25 @@ form.carfinderForm {
     min-height:300px;
 }
 
+.budget-landing-bg-wrapper {
+    padding:6px;
+    background-color:#fff;
+    border-radius:6px;
+    margin-top:4px;
+    border:1px solid #9E0AF8;
+    -webkit-box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
+    -moz-box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
+    box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
+}
+
+.budget-landing-bg-wrapper h2 {
+    margin: 0 0 12px 0;
+}
+
+.budget-landing h4 {
+    margin: 0 0 8px 0;
+}
+
 label {
     color:#424242;
 }

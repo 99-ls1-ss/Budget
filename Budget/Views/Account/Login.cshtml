@@ -59,7 +59,7 @@
                     <section id="socialLoginForm">
                         @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
 
-                        <div>
+                        @*<div>
                             @using(Html.BeginForm("AdminLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
                                 //@Html.AntiForgeryToken()
                                 <div class="form-group">
@@ -69,7 +69,7 @@
                                 </div>
                             }
 
-                        </div>
+                        </div>*@
 
                     </section>
                 </div>

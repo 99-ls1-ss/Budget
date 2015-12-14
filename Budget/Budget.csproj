@@ -312,6 +312,7 @@
     <Content Include="Content\essentials.css" />
     <Content Include="Content\images\Budget-image.jpg" />
     <Content Include="Content\images\Budget-image.png" />
+    <Content Include="Content\images\budgetHomeImage.png" />
     <Content Include="Content\myStyles.css" />
     <Content Include="Content\skins.css" />
     <Content Include="Content\stylesheet.css" />
