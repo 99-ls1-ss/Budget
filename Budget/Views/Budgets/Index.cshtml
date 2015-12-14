@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Budget.Models.BudgetItems>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Budget Items";
+    ViewBag.Menu = "Budget";
 }
 
 <section class="section colored-wrapper">
@@ -9,51 +10,66 @@
         <div class="wrapper-2">
 
 
-            <h2>Index</h2>
+            <h3>@ViewBag.Title</h3>
 
             <p>
                 @Html.ActionLink("Create New", "Create")
             </p>
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Category.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.HouseHold.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Amount)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach(var item in Model) {
+            <table class="table" id="budgetsTable">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HouseHold.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
                     </tr>
-                }
+                </thead>
+                <tbody>
 
+                    @foreach(var item in Model) {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Edit", "Budgets", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Budgets", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Budgets", new { id = item.Id })">
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
+    @section scripts{
+        <script>
+                    $(document).ready(function () {
+                        $('#budgetsTable').DataTable({
+                            //"order": [[0, "desc"]],
+                        //    "columnDefs": [
+                        //{
+                        //    "targets": [0],
+                        //    "sType": "date",
+                        //    "visible": false,
+                        //    "searchable": false,
+                        //    "order": [0, "desc"]
+                        //}
+                        //    ]
+                        });
+                    });
+        </script>
+    }
 </section>

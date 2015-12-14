@@ -34,10 +34,12 @@
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
                             @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                            <li>@Html.ActionLink("Home", "Index", "HouseHolds")</li>
-                            <li>@Html.ActionLink("Dashboard", "Dashboard", "HouseHolds")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>*@
+                            @if(Request.IsAuthenticated) { 
+                                <li>@Html.ActionLink("Budget Items", "Index", "Budgets")</li>
+                                <li>@Html.ActionLink("Home", "Index", "HouseHolds")</li>
+                                <li>@Html.ActionLink("Dashboard", "Dashboard", "HouseHolds")</li>
+                            }
                         </ul>
                         @*@Html.Partial("_LoginPartial")*@
                     </div>
