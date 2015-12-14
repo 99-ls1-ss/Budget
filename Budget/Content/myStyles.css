@@ -530,7 +530,7 @@ form.carfinderForm {
     background-image: url('images/Budget-image.png');
     background-size:100%;
     background-repeat:no-repeat;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     min-height:300px;
 }
 
@@ -539,10 +539,10 @@ form.carfinderForm {
     background-color:#fff;
     border-radius:6px;
     margin-top:4px;
-    border:1px solid #9E0AF8;
-    -webkit-box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
-    -moz-box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
-    box-shadow: 2px 2px 8px 1px rgb(2, 2, 2);
+    /*border:1px solid #9E0AF8;*/
+    -webkit-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
+    -moz-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
+    box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
 }
 
 .budget-landing-bg-wrapper h2 {
